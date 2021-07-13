@@ -14,6 +14,7 @@
 * IBM Kubernetes Cluster or OpenShift Cluster
 * kubectl CLI
 * oc CLI
+* helm 3 CLI
 
 ## Steps
 
@@ -23,6 +24,55 @@
 4. Trigger Security Events
 
 ### 1. Deploy NeuVector on your Cluster
+
+Create an instance of NeuVector Container Security Platform.
+Create an instance of IKS
+Gain the access of cluster
+After creating the instance of the service, click on the instance on dashboard. It will take you the page which provides you a set of instructions to deploy NeuVector on your IKS cluster.
+Perform those steps
+After successful deployment, it will give you URL to access NeuVector WebUI.
+
+### 2. Deploy Sample Application
+
+For this code pattern, we have chosen the open-sourced sample application `Damn Vulnerable Web App`. Deploy the application using the below command:
+
+```
+kubectl apply -f deployment.yaml
+```
+
+Access the application at `http://<public-ip-of-cluster>:32425/`.
+ 
+
+### 3. Configure NeuVector
+
+Access NeuVector using its webui link. Use `admin/admin` for the first time login.
+
+* Accept the End User license agreement. Click on `Accept`.
+* You will see the following in bottom-right corner.
+
+<snapshot>
+  
+* Click on it to change the password. It will take you to the Profile Settings. Click on `Edit Profile`. Provide the current password and new password then `Save`.
+* Login again with new password.
+* Add license Key.
+  
+    Copy the license key from IBM Cloud Dashboard page.
+  
+    Go to Settings > License
+  
+    Paste the license key in License Code box. Click Activate.
+
+Now you are all set to use NeuVector with your IKS Cluster. You can start with setting your own security policies and test.
+
+### 4. Set Policies
+
+### 5. Trigger Security Events and Analyze the Alerts
+
+
+
+
+
+
 
 
 ## License
