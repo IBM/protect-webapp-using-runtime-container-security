@@ -34,13 +34,19 @@ After successful deployment, it will give you URL to access NeuVector WebUI.
 
 ### 2. Deploy Sample Application
 
-For this code pattern, we have chosen the open-sourced sample application `Damn Vulnerable Web App`. Deploy the application using the below command:
+For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The deploy configuration is provided in this repository to deploy the application into Kubernetes cluster. Run the below command:
 
 ```
 kubectl apply -f deployment.yaml
 ```
 
-Access the application at `http://<public-ip-of-cluster>:32425/`.
+Access the application at `http://<public-ip-of-cluster>:32425/`. It will show the following page when you login first time:
+
+<landing-page>
+
+ Click on `Create/Reset Database`. It will configure database with some tables for the application. On re-logging, you will get following screen:
+ 
+ <landing page 2>
  
 
 ### 3. Configure NeuVector
