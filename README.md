@@ -92,6 +92,15 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
 
 ### 5. Trigger Security Events and Analyze the Alerts
 
+  #### 5.1 Cross site request forgery (CSRF)
+  
+  The vulnerable application exposes an API for password change:
+  /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  
+  A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
+  
+  Click on `CSRF` on the menu bar. Enter a new password with confirmation and click `Submit`. This will send a request to the server to change the password.
+ 
 
 
 
