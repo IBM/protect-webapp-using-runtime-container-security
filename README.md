@@ -6,6 +6,24 @@
 
 ## Introduction
 
+Web application security is a mandatory requirement for any web application accessible on the internet. There are many types of attacks on web applications that can result in loss of sensitive and confidential information, frauds and denial of service. The Open Web Application Security Project® (OWASP) which is a nonprofit foundation have published the [top ten attacks](https://owasp.org/www-project-top-ten/) on web applications. The web application security must take care to prevent such attacks.
+
+In the cloud native era, the applications are deployed in a container environments based on Kubernetes. The container runtime security can be implemented in addition to web application security. The container runtime security can monitor all activities within a container to detect threats.
+
+In this code pattern, you will see how to use [NeuVector](https://neuvector.com/) to prevent web application and container runtime threats.
+Once you complete the code pattern, you will learn how to:
+- Deploy a vulnerable web application on IBM Kubernetes cluster
+- Install NeuVector on IBM Kubernetes cluster
+- Configure NeuVector to detect and prevent the following types of attack:
+  - Cross Site Request Forgery (CSRF)
+  - Malicious File Upload
+  - Cross Site Scripting (XSS)
+  - Sensitive Data Exposure
+  - SQL Injection
+  - API Service Protection
+  - Container shell access
+- Test the web application for the security threats
+
 ## Flow
 
 ## Pre-requisites
