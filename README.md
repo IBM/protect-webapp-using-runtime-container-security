@@ -121,6 +121,10 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
    On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
 
+  #### Sensitive data exposure
+  
+  In the `DVWA` application, the data is not encrypted. Any sensitive information like credit card number or social security number is vulnerable to theft.
+  
 
 ## License
 
