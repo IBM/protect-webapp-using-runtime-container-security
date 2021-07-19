@@ -108,12 +108,18 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   The vulnerable application exposes an API that enables an attackers script to run in an users browser:
   /vulnerabilities/xss_r/?name=
   
-  Click on the `XSS (Reflected)` on the menu bar. Enter the text with a script tag in the `What's your name?` field - `<script>alert(xss)</script>`. Click `Submit`.
+  Go to the `DVWA` application dashboard. Click on the `XSS (Reflected)` on the menu. Enter the text with a script tag in the `What's your name?` field - `<script>alert(xss)</script>`. Click `Submit`.
+  A Javascript alert message `xss` will be displayed.
   
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
 
-
-
+#### 5.3 Stored cross site scripting
+ 
+  The vulnerable application exposes a form at the url - /vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
+  
+  Go to the `DVWA` application dashboard. Click on `XSS (Stored)` on the menu. Enter a name in the `Name` field. In the `Message` field, enter `<script>alert('bad script')</script>. Click `Sign Guestbook`. The message gets added on the page, and the script runs to display a javascript alert - `bad script`.
+  
+   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
 
 
 ## License
