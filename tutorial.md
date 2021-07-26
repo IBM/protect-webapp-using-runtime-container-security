@@ -29,7 +29,7 @@ In addition, you must contact support@neuvector.com to request that your Docker 
 1. Select Free from the list of pricing plans -> Select `Standard` from the list of pricing plans.
 
 
-You can also create a free cluster from the command line by using the following IBM Cloud CLI command:
+You can also create a cluster from the command line by using the following IBM Cloud CLI command:
 
 ibmcloud ks cluster create classic --name my_cluster
 
@@ -37,13 +37,13 @@ ibmcloud ks cluster create classic --name my_cluster
 
 Now that the environment is provisioned, you can access it from the IBM Cloud CLI tool that you downloaded in the Prerequisites.
 
-Go to IBM Cloud Dashboard, click on Clusters under Resource Summary section, then click the name of the cluster that you created in step 1.
+Go to IBM Cloud Dashboard, click on Clusters under Resource Summary section, then click the name of the cluster that you created in step 1. Then click on `Actions > Connect via CLI` as shown.
 
-< image 1>
+![](./images/connect-cli.png)
 
 It will lists the instructions to be performed as shown:
 
-<image 2>
+![](./images/cli-cmds.png)
 
 Follow the instructions on the terminal to:
 
@@ -55,15 +55,17 @@ Follow the instructions on the terminal to:
 
 #### 3.1 Create NeuVector Service Instance using IBM Cloud
 
-Create an instance of NeuVector Container Security Platform using IBM Cloud Catalog. Provide the name of the service of your choice and click on create.
+Create an instance of NeuVector Container Security Platform using IBM Cloud Catalog. 
 
-Once the service is created, go to IBM Cloud Dashboard > Services and Softwares (under Resource Summary) > click on the NeuVector service name. It will take you 
-the page which provides a set of instructions to deploy NeuVector on your IKS cluster.
+![](./images/NeuVector-CloudCatalog.png)
 
-< image 3>
+Provide the name of the service of your choice and click on create.
 
-Perform the steps mentioned under `Deploying the NeuVector Platform on an IBM Cloud IKS cluster`. It asks you to download two configuration files inclusing secret 
-manifest and helm values. You can download those and copy the below steps in one script and execute all the steps in one go using the script.
+Once the service is created, go to `IBM Cloud Dashboard > Resource Summary section > Services and Softwares` and click on the name of the NeuVector service created. It will take you the page to manage the NeuVector service instance. 
+
+![](./images/manage-service.png)
+
+Go to the `Deployment` section. The steps mentioned under `Deploying the NeuVector Platform on an IBM Cloud IKS cluster` needs to be executed. It asks you to download two configuration files inclusing secret manifest and helm values. Please download those in the current working directory and copy the below steps in one bash script and execute all the steps in one go using the script.
 
 ```
 ibmcloud ks cluster ls |grep <cluster-name>
@@ -100,7 +102,7 @@ helm install \
     --atomic --wait
 ```
 
-After successful deployment, it will give you URL to access NeuVector WebUI as https://neuvector.${IC_IKS_INGRESS_DOMAIN}.
+After successful execution of all steps, it will give you URL to access NeuVector WebUI as https://neuvector.${IC_IKS_INGRESS_DOMAIN}.
 
 **Apply NeuVector License**
 
@@ -109,19 +111,17 @@ Access the URL provided after successful deployment and login to NeuVector using
 * Accept the End User license agreement. Click on `Accept`.
 * You will see the following in bottom-right corner.
 
-<snapshot>
+  ![](./images/notification.png)
   
 * You can click on it to change the password.  It will take you to the Profile Settings. Click on `Edit Profile`. Provide the current password and new password then `Save`.
 * Login again with new password.
-* Add license Key.
-  
-    Copy the license key from IBM Cloud Dashboard page.
-  
-    Go to Settings > License
-  
-    Paste the license key in License Code box. Click Activate.
+* Next is to add license key. Navigate to the `License` section as shown and copy the license key.
 
-Now you are all set to use NeuVector with your IKS Cluster. Y
+  ![](./images/manage-service-license.png)
+  
+* Login to NeuVector and navigate to `Settings > License`. Paste the copied license key in License Code box and click Activate.
+
+Now you are all set to use NeuVector with your IKS Cluster.
 
 #### 3.2 Directly using Helm chart
 
