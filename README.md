@@ -279,9 +279,10 @@ source
   
    On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen.
   
-    ![forbidden](images/forbidden.png)
+  ![forbidden](images/forbidden.png)
   
   ### 6. Summary
+  
   
 ## License
 
