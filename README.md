@@ -187,7 +187,7 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
   
-  Click on `CSRF` on the menu bar.
+  On the `DWVA` application Dashboard, click on `CSRF` on the menu bar.
   ![menu](images/menu.png)
   
    Enter a new password with confirmation and click `Change`. This will send a request to the server to change the password.
@@ -196,6 +196,18 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   ![csrf](images/csrf.png)
  
   #### 5.2 Malicious file upload
+  
+  Create a file `test.php` with the contents shown below.
+  ```
+  <?php echo shell_exec("ls");?>
+  ```
+  
+  On the `DWVA` application Dashboard, click on `File Upload` on the menu bar. Click on `Browse`. Select the `test.php` file created earlier and click `Upload`.
+  
+  ![csrf](images/csrf.png)
+  
+  On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
+   ![upload](images/upload.png)
   
   #### 5.3 Reflected cross site scripting
   
@@ -254,6 +266,20 @@ source
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. A violation can be seen for the command injection policy.
   
    ![sqlinj](images/sqlinj.png)
+  
+  #### 5.8 API Service Protection
+  
+  Let us invoke the `test.php` that you uploaded earlier.
+  Invoke the url on the browser - [Base URL of the DWVA application]/hackable/uploads/test.php
+  
+  The below response can be seen on the browser when the access is not prevented:
+  ```
+  dvwa_email.png hack1.php hack2.php test.php 
+  ```
+  
+   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen.
+  
+    ![forbidden](images/forbidden.png)
   
   ### 6. Summary
   
