@@ -40,7 +40,8 @@ Once you complete the code pattern, you will learn how to:
 1. Deploy NeuVector on your Cluster
 2. Deploy Sample Application
 3. Configure NeuVector
-4. Trigger Security Events
+4. Set Policies To Detect Attacks
+5. Trigger Security Events
 
 ### 1. Deploy NeuVector on your Cluster
 
@@ -89,11 +90,16 @@ Access NeuVector using its webui link. Use `admin/admin` for the first time logi
 
 Now you are all set to use NeuVector with your IKS Cluster. You can start with setting your own security policies and test.
 
-### 4. Set Policies
+### 4. Set Policies To Detect Attacks
   
-  Let us now set up policies to detect the various types of attack.
+  Let us now set up some policies to detect the various types of attack. 
   
   **(i) Cross site request forgery**
+  
+  The vulnerable application exposes an API for password change:
+  /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  
+  Let us set up a policy that detects an invocation to this API.
   
   Click on `Policy` -> `DLP Sensors` on NeuVector Dashboard.
   
@@ -111,7 +117,11 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   Click on `+` and then click `Add`. Similarly we will add other sensors.
   
+  
+  
   **(ii) Malicious File Upload**
+  
+  It is possible to execute shell commands within PHP files. The below policy will detect `shell_exec` commands inside PHP files being uploaded.
   
   Add a sensor for detecting malicious file uploads:
   * Sensor name - sensor.malicious.phpfile.upload
@@ -119,6 +129,8 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   * Regex pattern - php.*shell_exec
   
   **(iii) Cross Site Scripting (XSS)**
+  
+  There are vulnerable APIs using which malicious scripts can be embedded in data sent to the application. The scripts can be embedded in query parameters of a GET request or inside form data of a POST request. The below policies will detect scripts being sent to the application inside a GET or a POST request.
   
   Add a sensor for detecting scripts in a GET request:
   * Sensor name - sensor.xss.get
@@ -136,6 +148,8 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   **(v) Command Injection**
   
+  The vulnerable web application exposes an API using which you can ping an IP address or URL. It is possible to inject other commands with the IP Address or URL and get the results back. Here, you will set up a policy to detect the `ls` command being injected.
+  
   Add a sensor for detecting command injections:
   * Sensor name - sensor.command.injection
   * Pattern name - command.injection.ls.command
@@ -143,12 +157,16 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   **(vi) SQL Injection**
   
+  This policy will detect `SELECT` queries injected into requests.
+  
   Add a sensor for detecting SQL injections:
   * Sensor name - sensor.sql.injection
   * Pattern name - sql.injection.select.statement
   * Regex pattern - select.\*from.\*
   
   **(vii) API Service Protection**
+  
+  The vulnerable application exposes an API that gives access to uploaded files. This policy will detect any invocation to the API.
   
   Add a sensor for detecting forbidden api access:
   * Sensor name - sensor.forbidden.api
