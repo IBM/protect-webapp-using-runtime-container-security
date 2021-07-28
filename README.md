@@ -186,6 +186,7 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
   
   Click on `CSRF` on the menu bar. Enter a new password with confirmation and click `Submit`. This will send a request to the server to change the password.
+  ![menu](images/menu.png)
   
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
   ![csrf](images/csrf.png)
@@ -201,20 +202,31 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   A Javascript alert message `xss` will be displayed.
   
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
-
-#### 5.3 Stored cross site scripting
+   ![relected](images/xss_reflected.png)
+  
+  #### 5.4 Stored cross site scripting
  
   The vulnerable application exposes a form at the url - /vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
   
-  Go to the `DVWA` application dashboard. Click on `XSS (Stored)` on the menu. Enter a name in the `Name` field. In the `Message` field, enter `<script>alert('bad script')</script>. Click `Sign Guestbook`. The message gets added on the page, and the script runs to display a javascript alert - `bad script`.
+  Go to the `DVWA` application dashboard. Click on `XSS (Stored)` on the menu. Enter a name in the `Name` field. In the `Message` field, enter `<script>alert('bad script')</script>`. Click `Sign Guestbook`. The message gets added on the page, and the script runs to display a javascript alert - `bad script`.
   
    On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
-
-  #### Sensitive data exposure
+   ![relected](images/xss_stored.png)
+  
+  #### 5.5 Sensitive data exposure
   
   In the `DVWA` application, the data is not encrypted. Any sensitive information like credit card number or social security number is vulnerable to theft.
   
+  Let us use the `XSS (Stored)` option in the application and embed a credit card number in the message. Go to the `DVWA` application dashboard. Click on `XSS (Stored)` on the menu. Enter a name in the `Name` field. In the `Message` field, enter `4563876598762345`. Click `Sign Guestbook`.
+  
+   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
+   ![cc](images/cc.png)
 
+   #### 5.6 Command injection
+  
+  Go to the `DVWA` application dashboard. Click on `Command Injection` on the menu. 
+  
+  
 ## License
 
 This code pattern is licensed under the Apache License, Version 2. Separate third-party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1](https://developercertificate.org/) and the [Apache License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).
