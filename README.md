@@ -19,6 +19,7 @@ Once you complete the code pattern, you will learn how to:
   - Malicious File Upload
   - Cross Site Scripting (XSS)
   - Sensitive Data Exposure
+  - Command Injection
   - SQL Injection
   - API Service Protection
   - Container shell access
@@ -89,7 +90,27 @@ Access NeuVector using its webui link. Use `admin/admin` for the first time logi
 Now you are all set to use NeuVector with your IKS Cluster. You can start with setting your own security policies and test.
 
 ### 4. Set Policies
-
+  
+  Let us now set up policies to detect the various types of attack.
+  
+  *Cross site request forgery*
+  
+  Click on `Policy` -> `DLP Sensors` on NeuVector Dashboard.
+  
+  ![dlpsensors](images/add_dlp_sensor.png)
+  
+  Click on `Add`.
+  
+  ![clickadd](images/click_add_sensor.png)
+  
+  Enter a name for the sensor -`sensor.cross.site.request.forgery`.
+  Enter a name for the regex pattern for detection - `CSRF.password.change.requested`.
+  Enter the regex pattern that can detect the attack - `password*`.
+  
+   ![adddetails](images/enter_sensor_details.png)
+  
+  Click on `+` and then click `Submit`.
+  
 ### 5. Trigger Security Events and Analyze the Alerts
 
   #### 5.1 Cross site request forgery (CSRF)
