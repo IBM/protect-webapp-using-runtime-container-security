@@ -224,8 +224,34 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
 
    #### 5.6 Command injection
   
-  Go to the `DVWA` application dashboard. Click on `Command Injection` on the menu. 
+  Go to the `DVWA` application dashboard. Click on `Command Injection` on the menu. In the `Enter an IP address` field, enter `example.com;ls`. Click `Submit`.
+  You can see a response from the application with a list of files in the application directory.
   
+  ```
+PING example.com (93.xxx.xxx.34): 56 data bytes
+64 bytes from 93.xxx.xxx.34: icmp_seq=0 ttl=56 time=1.456 ms
+64 bytes from 93.xxx.xxx.34: icmp_seq=1 ttl=56 time=1.312 ms
+64 bytes from 93.xxx.xxx.34: icmp_seq=2 ttl=56 time=1.273 ms
+64 bytes from 93.xxx.xxx.34: icmp_seq=3 ttl=56 time=1.340 ms
+--- example.com ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 1.273/1.345/1.456/0.068 ms
+help
+index.php
+source
+  ```
+  On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. A violation can be seen for the command injection policy.  In addition, you can see violations for running the `ping` and `ls` command on the container shell.
+  
+   ![cmdinj](images/cmdinj.png)
+  
+  #### 5.7 SQL injection
+  
+  Go to the `DVWA` application dashboard. Click on `SQL Injection` on the menu. In the `User ID` field enter the SQL - `SELECT * FROM USERS`.
+  On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. A violation can be seen for the command injection policy.
+  
+   ![sqlinj](images/sqlinj.png)
+  
+  ### 6. Summary
   
 ## License
 
