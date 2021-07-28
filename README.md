@@ -283,10 +283,11 @@ source
   
   #### 5.8 Container shell access
   
-  The container shell was accessed during `Command Injection` and also when `test.php` was invoked. NeuVector triggered alerts when any command is run on the container shell.
+  The container shell was accessed during `Command Injection`, and also when `test.php` was invoked to check `API Service Protection`. NeuVector triggered alerts when any command is run on the container shell.
   
   ### 6. Summary
   
+  In this code pattern, you saw how to set up security policies in `NeuVector` using DLP sensors. The sensors could detect various types of web application attacks like CSRF, XSS, Command Injection, SQL Injection, Forbidden API access, Sensitive Data Exposure and Container shell access. The security policies are confidential to the organization and depend on the web application being protected. The exhaustive list of policies to protect a web application must be developed in collaboration with the security team in the organization. Once the vulnerabilities are detected, the application must be enhanced and made secure against those type of attacks. 
   
 ## License
 
