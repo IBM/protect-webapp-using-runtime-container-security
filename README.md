@@ -188,8 +188,11 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   Click on `CSRF` on the menu bar. Enter a new password with confirmation and click `Submit`. This will send a request to the server to change the password.
   
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
+  ![csrf](images/csrf.png)
  
-#### 5.2 Reflected cross site scripting
+  #### 5.2 Malicious file upload
+  
+  #### 5.3 Reflected cross site scripting
   
   The vulnerable application exposes an API that enables an attackers script to run in an users browser:
   /vulnerabilities/xss_r/?name=
