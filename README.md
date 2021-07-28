@@ -185,8 +185,10 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
   
-  Click on `CSRF` on the menu bar. Enter a new password with confirmation and click `Submit`. This will send a request to the server to change the password.
+  Click on `CSRF` on the menu bar.
   ![menu](images/menu.png)
+  
+   Enter a new password with confirmation and click `Change`. This will send a request to the server to change the password.
   
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
   ![csrf](images/csrf.png)
