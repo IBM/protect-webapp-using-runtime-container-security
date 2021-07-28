@@ -128,7 +128,7 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   Add a sensor for detecting scripts in a POST request:
   * Sensor name - sensor.xss.post
   * Pattern name - XSS.post.request
-  * Regex pattern - POST.*%3Cscript%3E.*
+  * Regex pattern - POST.\*%3Cscript%3E.\*
   
   **(iv) Sensitive Data Exposure**
   
@@ -136,9 +136,26 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   **(v) Command Injection**
   
+  Add a sensor for detecting command injections:
+  * Sensor name - sensor.command.injection
+  * Pattern name - command.injection.ls.command
+  * Regex pattern - POST.\*%3Bls.\*
   
   **(vi) SQL Injection**
+  
+  Add a sensor for detecting SQL injections:
+  * Sensor name - sensor.sql.injection
+  * Pattern name - sql.injection.select.statement
+  * Regex pattern - select.\*from.\*
+  
   **(vii) API Service Protection**
+  
+  Add a sensor for detecting forbidden api access:
+  * Sensor name - sensor.forbidden.api
+  * Pattern name - forbidden.uploads.folder.accessed
+  * Regex pattern - GET.*/hackable/uploads.*HTTP
+   
+  
   **(viii) Container shell access**
   
 ### 5. Trigger Security Events and Analyze the Alerts
