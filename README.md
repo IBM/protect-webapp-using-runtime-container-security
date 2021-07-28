@@ -93,7 +93,7 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   Let us now set up policies to detect the various types of attack.
   
-  *Cross site request forgery*
+  **(i) Cross site request forgery**
   
   Click on `Policy` -> `DLP Sensors` on NeuVector Dashboard.
   
@@ -103,13 +103,43 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
   
   ![clickadd](images/click_add_sensor.png)
   
-  Enter a name for the sensor -`sensor.cross.site.request.forgery`.
-  Enter a name for the regex pattern for detection - `CSRF.password.change.requested`.
-  Enter the regex pattern that can detect the attack - `password*`.
+  * Enter a name for the sensor -`sensor.cross.site.request.forgery`.
+  * Enter a name for the regex pattern for detection - `CSRF.password.change.requested`.
+  * Enter the regex pattern that can detect the attack - `password*`.
   
    ![adddetails](images/enter_sensor_details.png)
   
-  Click on `+` and then click `Submit`.
+  Click on `+` and then click `Add`. Similarly we will add other sensors.
+  
+  **(ii) Malicious File Upload**
+  
+  Add a sensor for detecting malicious file uploads:
+  * Sensor name - sensor.malicious.phpfile.upload
+  * Pattern name - malicious.file.shell.exec.command
+  * Regex pattern - php.*shell_exec
+  
+  **(iii) Cross Site Scripting (XSS)**
+  
+  Add a sensor for detecting scripts in a GET request:
+  * Sensor name - sensor.xss.get
+  * Pattern name - XSS.script.in.request
+  * Regex pattern - GET.*%3Cscript%3E.*HTTP/1
+  
+  Add a sensor for detecting scripts in a POST request:
+  * Sensor name - sensor.xss.post
+  * Pattern name - XSS.post.request
+  * Regex pattern - POST.*%3Cscript%3E.*
+  
+  **(iv) Sensitive Data Exposure**
+  
+  The DLP sensor `sensor.creditcard` exists by default. This will be used to detect `credit card` information in requests.
+  
+  **(v) Command Injection**
+  
+  
+  **(vi) SQL Injection**
+  **(vii) API Service Protection**
+  **(viii) Container shell access**
   
 ### 5. Trigger Security Events and Analyze the Alerts
 
