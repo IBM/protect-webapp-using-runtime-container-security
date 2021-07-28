@@ -281,6 +281,10 @@ source
   
   ![forbidden](images/forbidden.png)
   
+  #### 5.8 Container shell access
+  
+  The container shell was accessed during `Command Injection` and also when `test.php` was invoked. NeuVector triggered alerts when any command is run on the container shell.
+  
   ### 6. Summary
   
   
