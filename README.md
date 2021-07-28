@@ -27,6 +27,8 @@ Once you complete the code pattern, you will learn how to:
 
 ## Flow
 
+ ![arch](images/architecture.png)
+ 
 ## Pre-requisites
 
 * IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud
