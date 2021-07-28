@@ -263,7 +263,8 @@ source
   #### 5.7 SQL injection
   
   Go to the `DVWA` application dashboard. Click on `SQL Injection` on the menu. In the `User ID` field enter the SQL - `SELECT * FROM USERS`.
-  On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. A violation can be seen for the command injection policy.
+ 
+  On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. A violation can be seen for the SQL injection policy.
   
    ![sqlinj](images/sqlinj.png)
   
