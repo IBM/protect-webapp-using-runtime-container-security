@@ -6,15 +6,16 @@
 
 ## Introduction
 
-Web application security is a mandatory requirement for any web application accessible on the internet. There are many types of attacks on web applications that can result in loss of sensitive and confidential information, frauds and denial of service. The Open Web Application Security Project® (OWASP) which is a nonprofit foundation have published the [top ten attacks](https://owasp.org/www-project-top-ten/) on web applications. The web application security must take care to prevent such attacks.
+Web application security is a mandatory requirement for any web application accessible on the internet. There are many types of attacks on web applications that can result in loss of sensitive and confidential information, frauds and denial of service. The Open Web Application Security Project (OWASP) which is a nonprofit foundation have published the [top ten attacks](https://owasp.org/www-project-top-ten/) on web applications. The web application security must take care to prevent such attacks.
 
-In the cloud native era, the applications are deployed in a container environments based on Kubernetes. The container runtime security can be implemented in addition to web application security. The container runtime security can monitor all activities within a container to detect threats.
+In the cloud native era, the applications are deployed in a container environments based on Kubernetes. The container security is equally critical in addition to web application security. The container runtime security can monitor all activities within a container to detect threats.
 
-In this code pattern, you will see how to use [NeuVector](https://neuvector.com/) to prevent web application and container runtime threats.
+[NeuVector](https://neuvector.com/) is cloud-native container firewall for monitoring and protecting Kubernetes container deployments in production. It allows you to inspect container network traffic, learn how an application communicates with other applications and, protect and monitor against security attacks. It provides enterprise-grade security.
+
+In this code pattern, you will see how to use NeuVector to prevent web application and container runtime threats.
 Once you complete the code pattern, you will learn how to:
-- Deploy a vulnerable web application on IBM Kubernetes cluster
-- Install NeuVector on IBM Kubernetes cluster
-- Configure NeuVector to detect and prevent the following types of attack:
+- Deploy NeuVector on IBM Kubernetes/OpenShift cluster
+- Configure security policies in NeuVector to detect and prevent the following types of attack:
   - Cross Site Request Forgery (CSRF)
   - Malicious File Upload
   - Cross Site Scripting (XSS)
@@ -23,7 +24,6 @@ Once you complete the code pattern, you will learn how to:
   - SQL Injection
   - API Service Protection
   - Container shell access
-- Test the web application for the security threats
 
 ## Flow
 
@@ -76,21 +76,21 @@ Click on `Create/Reset Database`. It will configure the required database with i
 ### 3. Explore NeuVector
 
 Access NeuVector using its webui link. 
-> You need to activate NeuVector after providing License code after installation. For more details you can refer [here]().
+> Please ensure that you have activated NeuVector by providing proper License code before proceeding further.
 
-Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard where it shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data when you access it first time.
+Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard where it shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data as you are accessing it first time.
 
 Go to Network Activity in left panel, it will show the pods running in your cluster as shown below. It also shows the `dvwa-app-**` pod which is related to the sample application deployed in previous step.
 
 ![network-activity](images/network-activity.png)
 
-You can explore more on other functionalities. Some of those are:
+You can explore more on other functionalities. Some of those used in this code pattern are:
 
 * **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more.
 * **Assets > System Components** that shows system components which include controlller pods, scanner pods and enforcer.
-* **Policy > Groups** that provides you the ability to filter group. For example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
+* **Policy > Groups** that provides you the ability to filter group, for example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
 * **Policy > DLP Sensors** that allows you to add more and more DLP sensors as explained in next step. After defining the DLP sensors, it can be applied to any group.
-*  **Notification > Security Events** is the place where you will be getting all type of security alerts based on the applied rules and DLP sensors. Security events can also be filtered based on groups/type of rules and so on.
+* **Notification > Security Events** is the place where you will be getting all type of security alerts based on the applied rules and DLP sensors. Security events can also be filtered based on groups/type of rules and so on.
 
 You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehensive guide of NeuVector. After exploring such functionalities, you are all set to use NeuVector with your application. Follow the next steps to set your own security policies and test.
 
@@ -178,6 +178,11 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    
   
   **(viii) Container shell access**
+  
+  If an user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. Some of the process profile rules are defined by default and you can set/change the action to be taken for those. If there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
+  
+  ![process-profile-rule](./images/process-profile-rule.png)
+  
   
 ### 5. Trigger Security Events and Analyze the Alerts
 
