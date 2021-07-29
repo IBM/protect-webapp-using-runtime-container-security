@@ -40,7 +40,7 @@ Once you complete the code pattern, you will learn how to:
 
 1. Deploy NeuVector on your Cluster
 2. Deploy Sample Application
-3. Configure NeuVector
+3. Explore NeuVector
 4. Set Policies To Detect Attacks
 5. Trigger Security Events
 
@@ -52,45 +52,47 @@ If you are using IBM Kubernetes Cluster(IKS), then you can follow the instructio
 
 If you plan to use OpenShift, then you will be deploying NeuVector using operator. Instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16)
 
-For this code pattern, we have used IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector Cloud Service]().
+For this code pattern, we have used IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector Cloud Service](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform).
 
 ### 2. Deploy Sample Application
 
-For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The deploy configuration is provided in this repository to deploy the application into Kubernetes cluster. Run the below command to deploy the application:
+For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The configuration to deploy the application into Kubernetes cluster is provided in this repository as `deployment.yaml`. Run the below command to deploy the application:
 
 ```
 kubectl apply -f deployment.yaml
 ```
 
-Access the application at `http://<public-ip-of-cluster>:32425/`. It will show the following page when you login first time:
+> Note: The provided deplopy configuration uses 32425 port for service. If this port is not available or you want to use different port, please modify in deployment.yaml and then run.
 
-<landing-page>
+Access the application at `http://<public-ip-of-cluster>:32425/`. Login to the application with default credentials `admin/password`. After login to the application first-time, you will get the following screen:
 
-  Click on `Create/Reset Database`. It will configure database with some tables for the application. On re-logging, you will get following screen:
+  ![application-first-screen](./images/app-first-screen.png)
+
+Click on `Create/Reset Database`. It will configure the required database with its tables for the application. On re-logging, you will get following screen:
  
- <landing page 2>
+  ![application-after-db-setup](./images/app-after-db-setup.png)
    
 
-### 3. Configure NeuVector
+### 3. Explore NeuVector
 
-Access NeuVector using its webui link. Use `admin/admin` for the first time login.
+Access NeuVector using its webui link. 
+> You need to activate NeuVector after providing License code after installation. For more details you can refer [here]().
 
-* Accept the End User license agreement. Click on `Accept`.
-* You will see the following in bottom-right corner.
+Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard where it shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data when you access it first time.
 
-<snapshot>
-  
-* Click on it to change the password. It will take you to the Profile Settings. Click on `Edit Profile`. Provide the current password and new password then `Save`.
-* Login again with new password.
-* Add license Key.
-  
-    Copy the license key from IBM Cloud Dashboard page.
-  
-    Go to Settings > License
-  
-    Paste the license key in License Code box. Click Activate.
+Go to Network Activity in left panel, it will show the pods running in your cluster as shown below. It also shows the `dvwa-app-**` pod which is related to the sample application deployed in previous step.
 
-Now you are all set to use NeuVector with your IKS Cluster. You can start with setting your own security policies and test.
+![network-activity](images/network-activity.png)
+
+You can explore more on other functionalities. Some of those are:
+
+* **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more.
+* **Assets > System Components** that shows system components which include controlller pods, scanner pods and enforcer.
+* **Policy > Groups** that provides you the ability to filter group. For example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
+* **Policy > DLP Sensors** that allows you to add more and more DLP sensors as explained in next step. After defining the DLP sensors, it can be applied to any group.
+*  **Notification > Security Events** is the place where you will be getting all type of security alerts based on the applied rules and DLP sensors. Security events can also be filtered based on groups/type of rules and so on.
+
+You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehensive guide of NeuVector. After exploring such functionalities, you are all set to use NeuVector with your application. Follow the next steps to set your own security policies and test.
 
 ### 4. Set Policies To Detect Attacks
   
@@ -118,7 +120,6 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
    ![adddetails](images/enter_sensor_details.png)
   
   Click on `+` and then click `Add`. Similarly we will add other sensors.
-  
   
   
   **(ii) Malicious File Upload**
