@@ -1,33 +1,36 @@
-## Add runtime container security to your production Kubernetes workloads
+# Add runtime container security to your production Kubernetes workloads
 
-### Introduction -
+## Introduction -
 
 The NeuVector solution is comprised of security containers, which can be deployed on each node similar to how you deploy your applications using Kubernetes. 
 For evaluation purposes, NeuVector makes an Allinone container and an Enforcer container available. 
 
---> These can be pulled from Docker Hub, along with documentation, by requesting access from info@neuvector.com.
+<!-- 
+These can be pulled from Docker Hub , along with documentation, by requesting access from info@neuvector.com
+-->
 
-### Pre-reqs -
+## Pre-reqs -
 
 
 * IBM Cloud account. Note: To create a Kubernetes cluster to complete this tutorial, you must have a Pay-As-You-Go or Subscription account.
-    IBM Cloud Command Line Interface (CLI) tool.
-    IBM Cloud Kubernetes Service plug-in.
+* IBM Cloud Command Line Interface (CLI) tool.
+* IBM Cloud Kubernetes Service plug-in.
 * Helm 3 CLI
 * Kubernetes CLI (kubectl)
     
--->    
-    Docker account.
+<!-- 
+Docker account.
     Free trial license for NeuVector full lifecycle container security console from the Red Hat Marketplace.
 
 In addition, you must contact support@neuvector.com to request that your Docker Hub ID be added to the NeuVector private registry.
 
-### Steps -
+-->     
+   
+## Steps 
 
 ### Step 1.
 
 1. Select Free from the list of pricing plans -> Select `Standard` from the list of pricing plans.
-
 
 You can also create a cluster from the command line by using the following IBM Cloud CLI command:
 
@@ -37,7 +40,7 @@ ibmcloud ks cluster create classic --name my_cluster
 
 Now that the environment is provisioned, you can access it from the IBM Cloud CLI tool that you downloaded in the Prerequisites.
 
-Go to IBM Cloud Dashboard, click on Clusters under Resource Summary section, then click the name of the cluster that you created in step 1. Then click on `Actions > Connect via CLI` as shown.
+Go to IBM Cloud Dashboard, click on Clusters under Resource Summary section, then click on the name of the cluster that you created in step 1. Then click on `Actions > Connect via CLI` as shown.
 
 ![](./images/connect-cli.png)
 
@@ -104,7 +107,7 @@ helm install \
 
 After successful execution of all steps, it will give you URL to access NeuVector WebUI as https://neuvector.${IC_IKS_INGRESS_DOMAIN}.
 
-**Apply NeuVector License**
+#### 3.2 Apply NeuVector License
 
 Access the URL provided after successful deployment and login to NeuVector using default credentials `admin/admin`.
 
@@ -123,5 +126,4 @@ Access the URL provided after successful deployment and login to NeuVector using
 
 Now you are all set to use NeuVector with your IKS Cluster.
 
-#### 3.2 Directly using Helm chart
 
