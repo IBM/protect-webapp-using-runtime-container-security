@@ -31,10 +31,9 @@ Once you complete the code pattern, you will learn how to:
  
 ## Pre-requisites
 
-* IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud
-* IBM Kubernetes Cluster or OpenShift Cluster
-* kubectl CLI
-* oc CLI
+* IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud.
+* IBM Kubernetes Cluster and `kubectl` CLI - If you plan to deploy your application and NeuVector on Kubernetes.
+* OpenShift Cluster and `oc` CLI - If you plan to deploy your application and NeuVector on OpenShift.
 * helm 3 CLI
 
 ## Steps
@@ -48,15 +47,16 @@ Once you complete the code pattern, you will learn how to:
 ### 1. Deploy NeuVector on your Cluster
 
 Create an instance of NeuVector Container Security Platform.
-Create an instance of IKS
-Gain the access of cluster
-After creating the instance of the service, click on the instance on dashboard. It will take you the page which provides you a set of instructions to deploy NeuVector on your IKS cluster.
-Perform those steps
-After successful deployment, it will give you URL to access NeuVector WebUI.
+
+If you are using IBM Kubernetes Cluster(IKS), then you can follow the instructions provided [here](https://www.ibm.com/cloud/blog/kubernetes-container-security-neuvector-ibm-cloud-container-service).
+
+If you plan to use OpenShift, then you will be deploying NeuVector using operator. Instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16)
+
+For this code pattern, we have used IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector Cloud Service]().
 
 ### 2. Deploy Sample Application
 
-For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The deploy configuration is provided in this repository to deploy the application into Kubernetes cluster. Run the below command:
+For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The deploy configuration is provided in this repository to deploy the application into Kubernetes cluster. Run the below command to deploy the application:
 
 ```
 kubectl apply -f deployment.yaml
@@ -66,10 +66,10 @@ Access the application at `http://<public-ip-of-cluster>:32425/`. It will show t
 
 <landing-page>
 
- Click on `Create/Reset Database`. It will configure database with some tables for the application. On re-logging, you will get following screen:
+  Click on `Create/Reset Database`. It will configure database with some tables for the application. On re-logging, you will get following screen:
  
  <landing page 2>
- 
+   
 
 ### 3. Configure NeuVector
 
