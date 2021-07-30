@@ -29,6 +29,11 @@ Once you complete the code pattern, you will learn how to:
 
  ![arch](images/architecture.png)
  
+ 1. User (developer) configures security policies in NeuVector.
+ 2. User (developer/hacker) accesses the web application and trigger some security events.
+ 3. User (admin/developer) monitors the application through NeuVector dashboard.
+
+ 
 ## Pre-requisites
 
 * IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud.
@@ -42,7 +47,7 @@ Once you complete the code pattern, you will learn how to:
 2. Deploy Sample Application
 3. Explore NeuVector
 4. Set Policies To Detect Attacks
-5. Trigger Security Events
+5. Trigger Security Events and Analyze the Alerts
 
 ### 1. Deploy NeuVector on your Cluster
 
