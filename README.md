@@ -209,15 +209,13 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   On the `DWVA` application Dashboard, click on `File Upload` on the menu bar. Click on `Browse`. Select the `test.php` file created earlier and click `Upload`.
   
-  ![csrf](images/csrf.png)
-  
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
    ![upload](images/upload.png)
   
   #### 5.3 Reflected cross site scripting
   
   The vulnerable application exposes an API that enables an attackers script to run in an users browser:
-  /vulnerabilities/xss_r/?name=
+    http://[public-ip-of-cluster]:32425/vulnerabilities/xss_r/?name=[user entered data]
   
   Go to the `DVWA` application dashboard. Click on the `XSS (Reflected)` on the menu. Enter the text with a script tag in the `What's your name?` field - `<script>alert(xss)</script>`. Click `Submit`.
   A Javascript alert message `xss` will be displayed.
@@ -227,7 +225,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   #### 5.4 Stored cross site scripting
  
-  The vulnerable application exposes a form at the url - /vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
+  The vulnerable application exposes a form at the url -   http://[public-ip-of-cluster]:32425/vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
   
   Go to the `DVWA` application dashboard. Click on `XSS (Stored)` on the menu. Enter a name in the `Name` field. In the `Message` field, enter `<script>alert('bad script')</script>`. Click `Sign Guestbook`. The message gets added on the page, and the script runs to display a javascript alert - `bad script`.
   
@@ -276,7 +274,7 @@ source
   #### 5.8 API Service Protection
   
   Let us invoke the `test.php` that you uploaded earlier.
-  Invoke the url on the browser - [Base URL of the DWVA application]/hackable/uploads/test.php
+  Invoke the url on the browser -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
   
   The below response can be seen on the browser when the access is not prevented:
   ```
