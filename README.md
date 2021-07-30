@@ -130,7 +130,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
     > Note: The name of the sensor and the pattern can be any name of your choice.
     
     
-   ![adddetails](images/enter_sensor_details.png)
+   ![adddetails](images/enter-sensor-details.png)
 
 
    Click on `+` and then click `Add`. Similarly we will add other sensors.
