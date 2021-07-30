@@ -1,4 +1,3 @@
-*** Work in-progress ***
 
 # Protect your web application using advanced runtime container security
 
@@ -23,16 +22,16 @@ Once you complete the code pattern, you will learn how to:
  ![arch](images/architecture.png)
  
  1. User (developer) configures security policies in NeuVector.
- 2. User (developer/hacker) accesses the web application and trigger some security events.
- 3. User (admin/developer) monitors the application through NeuVector dashboard.
+ 2. User (developer/hacker) accesses the web application and trigger some security attacks.
+ 3. User (admin/developer) gets notification of the security attacks and its details on NeuVector Dashboard.
 
  
 ## Pre-requisites
 
-* IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud.
-* IBM Kubernetes Cluster and `kubectl` CLI - If you plan to deploy your application and NeuVector on Kubernetes.
-* OpenShift Cluster and `oc` CLI - If you plan to deploy your application and NeuVector on OpenShift.
-* helm 3 CLI
+* [IBM Cloud Account](https://cloud.ibm.com/registration) - If you are using NeuVector Service available on IBM Cloud.
+* [IBM Kubernetes Cluster](https://cloud.ibm.com/kubernetes/catalog/create) and `kubectl` CLI - If you plan to deploy your application and NeuVector on Kubernetes.
+* [OpenShift Cluster](https://cloud.ibm.com/kubernetes/catalog/create?platformType=openshift) and `oc` CLI - If you plan to deploy your application and NeuVector on OpenShift.
+* [Helm 3](https://helm.sh/docs/intro/install/) CLI
 
 ## Steps
 
@@ -48,11 +47,11 @@ Once you complete the code pattern, you will learn how to:
 
 Create an instance of NeuVector Container Security Platform.
 
-If you are using IBM Kubernetes Cluster(IKS), then you can follow the instructions provided [here](https://www.ibm.com/cloud/blog/kubernetes-container-security-neuvector-ibm-cloud-container-service).
+If you are using IBM Kubernetes Cluster(IKS), then you can follow the instructions provided [here](https://github.com/IBM/protect-webapp-using-runtime-container-security/blob/main/deploy-neuvector-using-ibmcloud-svc.md).
 
-If you plan to use OpenShift, then you will be deploying NeuVector using operator. Instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16)
+If you plan to use OpenShift, then you will be deploying NeuVector using operator. Instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16).
 
-For this code pattern, we have used IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector Cloud Service](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform).
+For this code pattern, we have used IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector service on IBM Cloud](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform).
 
 ### 2. Deploy Sample Application
 
@@ -62,9 +61,11 @@ For this code pattern, we have chosen the popular and open-sourced sample applic
 kubectl apply -f deployment.yaml
 ```
 
-> Note: The provided deplopy configuration uses 32425 port for service. If this port is not available or you want to use different port, please modify in deployment.yaml and then run.
+> Note: The provided deploy configuration uses 32425 port for service. If this port is not available or you want to use different port, please modify it in the  deployment.yaml and then run.
 
-Access the application at `http://<public-ip-of-cluster>:32425/`. Login to the application with default credentials `admin/password`. After login to the application first-time, you will get the following screen:
+Access the application at `http://<public-ip-of-cluster>:32425/`. 
+
+Login to the application with default credentials `admin/password`. After login to the application first-time, you will get the following screen:
 
   ![application-first-screen](./images/app-first-screen.png)
 
@@ -72,119 +73,125 @@ Click on `Create/Reset Database`. It will configure the required database with i
  
   ![application-after-db-setup](./images/app-after-db-setup.png)
    
+Now the application is up and running, let's understand NeuVector and set some security policies as explained further.
 
 ### 3. Explore NeuVector
 
 Access NeuVector using its webui link. 
 > Please ensure that you have activated NeuVector by providing proper License code before proceeding further.
 
-Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard as shown below. It shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data as you are accessing it first time.
+Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard as shown below. It shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts may not have any data if you are accessing first time.
 
 ![neuvector-dashboard](images/dashboard.png)
 
-Go to Network Activity in left panel, it will show the pods running in your cluster as shown below. It also shows the `dvwa-app-**` pod which is related to the sample application deployed in previous step.
+
+Go to Network Activity in left panel, it will show the pods running in your cluster as shown below. Notice that it also shows the `dvwa-app-**` pod which is the pod of your sample application deployed in previous step.
+
 
 ![network-activity](images/network-activity.png)
+
 
 You can explore more on other functionalities. Some of those used in this code pattern are:
 
 * **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more.
 * **Assets > System Components** that shows system components which include controlller pods, scanner pods and enforcer.
 * **Policy > Groups** that provides you the ability to filter group, for example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
-* **Policy > DLP Sensors** that allows you to add more and more DLP sensors as explained in next step. After defining the DLP sensors, it can be applied to any group.
+* **Policy > DLP Sensors** that allows you to add more DLP sensors as explained in next step. After defining the DLP sensors, it can be applied to any group.
 * **Notification > Security Events** is the place where you will be getting all type of security alerts based on the applied rules and DLP sensors. Security events can also be filtered based on groups/type of rules and so on.
 
 You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehensive guide of NeuVector. After exploring such functionalities, you are all set to use NeuVector with your application. Follow the next steps to set your own security policies and test.
 
 ### 4. Set Policies To Detect Attacks
   
-  Let us now set up some policies to detect the various types of attack. 
+  Let us now set up some policies to detect the various types of attack.
   
-  **(i) Cross site request forgery**
+  > NOTE: These DLP rules are created for demo purposes. They should be fine-tuned to reduce false positives and false negatives when used in the real environment.
   
-  The vulnerable application exposes an API for password change:
-  http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+   ***(i) Cross site request forgery***
+
+   The vulnerable application exposes an API for password change:
+   http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+
+   Let us set up a policy that detects an invocation to this API.
+
+   Click on `Policy` -> `DLP Sensors` on NeuVector Dashboard.
+
+   ![dlpsensors](images/add_dlp_sensor.png)
+
+   Click on `Add`.
+
+   ![clickadd](images/click_add_sensor.png)
+
+   * Enter a name for the sensor -`sensor.cross.site.request.forgery`.
+   * Enter a name for the regex pattern for detection - `CSRF.password.change.requested`.
+   * Enter the regex pattern that can detect the attack - `password_new=.*&password_conf=.*`.
+
+   > Note: The name of the sensor and the pattern can be any of your choice.
+
+    ![adddetails](images/enter_sensor_details.png)
+
+   Click on `+` and then click `Add`. Similarly we will add other sensors.
   
-  Let us set up a policy that detects an invocation to this API.
   
-  Click on `Policy` -> `DLP Sensors` on NeuVector Dashboard.
+   ***(ii) Malicious File Upload***
+
+   The sample application provides the functionality to upload the file. There is a possibility that an user tries to execute commands in the container shell to get some confidential information using that file. To avoid that you can set a security policy which will scan the file to be uploaded and take action accordingly. For example, if an user tries to upload a php file which has instruction to run shell commands then the below policy will detect `shell_exec` commands inside PHP files being uploaded.
+
+   Add a sensor for detecting malicious file uploads:
+   * Sensor name - sensor.malicious.phpfile.upload
+   * Pattern name - malicious.file.shell.exec.command
+   * Regex pattern - php.*shell_exec
   
-  ![dlpsensors](images/add_dlp_sensor.png)
-  
-  Click on `Add`.
-  
-  ![clickadd](images/click_add_sensor.png)
-  
-  * Enter a name for the sensor -`sensor.cross.site.request.forgery`.
-  * Enter a name for the regex pattern for detection - `CSRF.password.change.requested`.
-  * Enter the regex pattern that can detect the attack - `password*`.
-  
-   ![adddetails](images/enter_sensor_details.png)
-  
-  Click on `+` and then click `Add`. Similarly we will add other sensors.
-  
-  
-  **(ii) Malicious File Upload**
-  
-  It is possible to execute shell commands within PHP files. The below policy will detect `shell_exec` commands inside PHP files being uploaded.
-  
-  Add a sensor for detecting malicious file uploads:
-  * Sensor name - sensor.malicious.phpfile.upload
-  * Pattern name - malicious.file.shell.exec.command
-  * Regex pattern - php.*shell_exec
-  
-  **(iii) Cross Site Scripting (XSS)**
-  
-  There are vulnerable APIs using which malicious scripts can be embedded in data sent to the application. The scripts can be embedded in query parameters of a GET request or inside form data of a POST request. The below policies will detect scripts being sent to the application inside a GET or a POST request.
-  
-  Add a sensor for detecting scripts in a GET request:
-  * Sensor name - sensor.xss.get
-  * Pattern name - XSS.script.in.request
-  * Regex pattern - GET.*%3Cscript%3E.*HTTP/1
-  
-  Add a sensor for detecting scripts in a POST request:
-  * Sensor name - sensor.xss.post
-  * Pattern name - XSS.post.request
-  * Regex pattern - POST.\*%3Cscript%3E.\*
-  
-  **(iv) Sensitive Data Exposure**
-  
-  The DLP sensor `sensor.creditcard` exists by default. This will be used to detect `credit card` information in requests.
-  
-  **(v) Command Injection**
-  
-  The vulnerable web application exposes an API using which you can ping an IP address or URL. It is possible to inject other commands with the IP Address or URL and get the results back. Here, you will set up a policy to detect the `ls` command being injected.
-  
-  Add a sensor for detecting command injections:
-  * Sensor name - sensor.command.injection
-  * Pattern name - command.injection.ls.command
-  * Regex pattern - POST.\*%3Bls.\*
-  
-  **(vi) SQL Injection**
-  
-  This policy will detect `SELECT` queries injected into requests.
-  
-  Add a sensor for detecting SQL injections:
-  * Sensor name - sensor.sql.injection
-  * Pattern name - sql.injection.select.statement
-  * Regex pattern - select.\*from.\*
-  
-  **(vii) API Service Protection**
-  
-  The vulnerable application exposes an API that gives access to uploaded files. This policy will detect any invocation to the API.
-  
-  Add a sensor for detecting forbidden api access:
-  * Sensor name - sensor.forbidden.api
-  * Pattern name - forbidden.uploads.folder.accessed
-  * Regex pattern - GET.*/hackable/uploads.*HTTP
+   ***(iii) Cross Site Scripting (XSS)***
+
+   There are vulnerable APIs using which malicious scripts can be embedded in data sent to the application. The scripts can be embedded in query parameters of a GET request or inside form data of a POST request. The below policies will detect scripts being sent to the application inside a GET or a POST request.
+
+   Add a sensor for detecting scripts in a GET request:
+   * Sensor name - sensor.xss.get
+   * Pattern name - XSS.script.in.request
+   * Regex pattern - GET.*%3Cscript%3E.*HTTP/1
+
+   Add a sensor for detecting scripts in a POST request:
+   * Sensor name - sensor.xss.post
+   * Pattern name - XSS.post.request
+   * Regex pattern - POST.\*%3Cscript%3E.\*
+
+   ***(iv) Sensitive Data Exposure***
+
+   The DLP sensor `sensor.creditcard` exists by default. This will be used to detect `credit card` information in requests.
+
+   ***(v) Command Injection***
+
+   The vulnerable web application exposes an API using which you can ping an IP address or URL. It is possible to inject other commands with the IP Address or URL and get the results back. Here, you will set up a policy to detect the `ls` command being injected.
+
+   Add a sensor for detecting command injections:
+   * Sensor name - sensor.command.injection
+   * Pattern name - command.injection.ls.command
+   * Regex pattern - POST.\*%3Bls.\*
+
+   ***(vi) SQL Injection***
+
+   If an user tries to embed a SQL query through any of the input parameters, this policy will detect `SELECT` queries injected into requests.
+
+   Add a sensor for detecting SQL injections:
+   * Sensor name - sensor.sql.injection
+   * Pattern name - sql.injection.select.statement
+   * Regex pattern - select.\*from.\*
+
+   ***(vii) API Service Protection***
+
+   The vulnerable application exposes an API that gives access to the uploaded files. An user may try to download or execute the file to get some important information. This policy will detect any invocation to the API.
+
+   Add a sensor for detecting forbidden api access:
+   * Sensor name - sensor.forbidden.api
+   * Pattern name - forbidden.uploads.folder.accessed
+   * Regex pattern - GET.*/hackable/uploads.*HTTP
    
-  **(viii) Change mode and add sensors to the application group **
+ At this place, you have defined some DLP sensors. To see them in-action, we need to apply these sensors to the group.
+ 
+**Add DLP sensors to the application group**
   
-   Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Monitor`. The `Monitor` mode will generate warning alerts for all the attacks.
-  
-  ![switchmode](./images/switch_mode.png)
-  
- Next, let us add the sensors to monitor the web application for attacks. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Select the `DLP` tab amd click on the `Edit` icon. 
+  Let us add the sensors to monitor the web application for attacks. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Select the `DLP` tab amd click on the `Edit` icon. 
   
   ![opengrp](./images/open_dlp.png)
   
@@ -193,16 +200,30 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   ![enable_sensors](./images/enable_sensors.png) 
   
-  **(ix) Container shell access**
   
-  If an user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. Some of the process profile rules are defined by default and you can set/change the action to be taken for those. If there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
+**Container shell access or Process Profile Rules**
+  
+  Initially NeuVector learned on its own about the required processes required for the application to run. So you will find some process profile rules defined by default with action typed as `allow`. And you are allowed to change the action to be taken for those.
+  
+  So if an user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. But if there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
   
   ![process-profile-rule](./images/process-profile-rule.png)
+  
+
+**Change Policy Mode for the Application**
+
+   At this moment `Policy Mode` is set to `Discover`. As all policies have been set now, then we can change the policy mode and test the system.
+   
+   Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Monitor`. The `Monitor` mode will generate warning alerts for all the attacks.
+  
+  ![switchmode](./images/switch_mode.png)
+  
+  If you change to `Protect`, then as soon as any request which triggers the security event is detected and it will be blocked. This event will be recorded with Deny action.
   
   
 ### 5. Trigger Security Events and Analyze the Alerts
 
-  #### 5.1 Cross site request forgery (CSRF)
+  ***(i) Cross site request forgery (CSRF)***
   
   The vulnerable application exposes an API for password change:
   http://[public-ip-of-cluster]:32425//vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
@@ -217,7 +238,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
   ![csrf](images/csrf.png)
  
-  #### 5.2 Malicious file upload
+  ***(ii) Malicious file upload***
   
   Create a file `test.php` with the contents shown below.
   ```
@@ -229,7 +250,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
    ![upload](images/upload.png)
   
-  #### 5.3 Reflected cross site scripting
+  ***(iii) Reflected cross site scripting***
   
   The vulnerable application exposes an API that enables an attackers script to run in an users browser:
     http://[public-ip-of-cluster]:32425/vulnerabilities/xss_r/?name=[user entered data]
@@ -240,7 +261,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
    ![relected](images/xss_reflected.png)
   
-  #### 5.4 Stored cross site scripting
+  ***(iv) Stored cross site scripting***
  
   The vulnerable application exposes a form at the url -   http://[public-ip-of-cluster]:32425/vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
   
@@ -249,7 +270,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
    ![relected](images/xss_stored.png)
   
-  #### 5.5 Sensitive data exposure
+  ***(v) Sensitive data exposure***
   
   In the `DVWA` application, the data is not encrypted. Any sensitive information like credit card number or social security number is vulnerable to theft.
   
@@ -258,7 +279,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
    ![cc](images/cc.png)
 
-   #### 5.6 Command injection
+   ***(vi) Command injection***
   
   Go to the `DVWA` application dashboard. Click on `Command Injection` on the menu. In the `Enter an IP address` field, enter `example.com;ls`. Click `Submit`.
   You can see a response from the application with a list of files in the application directory.
@@ -280,7 +301,7 @@ source
   
    ![cmdinj](images/cmdinj.png)
   
-  #### 5.7 SQL injection
+  ***(vii) SQL injection***
   
   Go to the `DVWA` application dashboard. Click on `SQL Injection` on the menu. In the `User ID` field enter the SQL - `SELECT * FROM USERS`.
  
@@ -288,7 +309,7 @@ source
   
    ![sqlinj](images/sqlinj.png)
   
-  #### 5.8 API Service Protection
+  ***(viii) API Service Protection***
   
   Let us invoke the `test.php` that you uploaded earlier.
   Invoke the url on the browser -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
@@ -302,16 +323,22 @@ source
   
   ![forbidden](images/forbidden.png)
   
-  Let us now change the `NeuVector` mode to deny access and prevent the attack. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Protect`. 
+  ***(ix) Container shell access***
+  
+  The container shell was accessed during `Command Injection`, and also when `test.php` was invoked to check `API Service Protection`. NeuVector triggered alerts when any command is run on the container shell as shown in the above snapshot.
+  
+  
+**Change Policy Mode to Protect**
+  
+  Let us now change the policy mode to deny access and prevent the attack. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Protect`. 
+  
+  Now you can test any of the attack. Let us try `API Service Protection`.
+  
   Invoke the url on the browser again -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
   
   This time this API canot be accessed and you can see the below alert on the `Security Events` page.
   
    ![forbidden](images/deny_access.png)
-  
-  #### 5.8 Container shell access
-  
-  The container shell was accessed during `Command Injection`, and also when `test.php` was invoked to check `API Service Protection`. NeuVector triggered alerts when any command is run on the container shell.
   
   ### 6. Summary
   
