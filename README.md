@@ -43,11 +43,12 @@ Once you complete the code pattern, you will learn how to:
 
 ## Steps
 
-1. Deploy NeuVector on your Cluster
-2. Deploy Sample Application
-3. Explore NeuVector
-4. Set Policies To Detect Attacks
-5. Trigger Security Events and Analyze the Alerts
+1. [Deploy NeuVector on your Cluster](#1-deploy-neuvector-on-your-cluster)
+2. [Deploy Sample Application](#2-deploy-sample-application)
+3. [Explore NeuVector](#3-explore-neuvector)
+4. [Set policies to detect attacks](#4-set-policies-to-detect-attacks)
+5. [Trigger Security Events and Analyze the Alerts](#5-trigger-security-events-and-analyze-the-alerts)
+6. [Summary](#6-summary)
 
 ### 1. Deploy NeuVector on your Cluster
 
