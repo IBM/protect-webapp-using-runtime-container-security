@@ -83,7 +83,9 @@ Click on `Create/Reset Database`. It will configure the required database with i
 Access NeuVector using its webui link. 
 > Please ensure that you have activated NeuVector by providing proper License code before proceeding further.
 
-Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard where it shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data as you are accessing it first time.
+Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard as shown below. It shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data as you are accessing it first time.
+
+![neuvector-dashboard](images/dashboard.png)
 
 Go to Network Activity in left panel, it will show the pods running in your cluster as shown below. It also shows the `dvwa-app-**` pod which is related to the sample application deployed in previous step.
 
