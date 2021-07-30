@@ -35,7 +35,7 @@ Once you complete the code pattern, you will learn how to:
 2. [Deploy Sample Application](#2-deploy-sample-application)
 3. [Explore NeuVector](#3-explore-neuvector)
 4. [Set policies to detect attacks](#4-set-policies-to-detect-attacks)
-5. [Trigger Security Events](#5-trigger-security-events)
+5. [Trigger Security Events and Analyze the Alerts](#5-trigger-security-events-and-analyze-the-alerts)
 6. [Summary](#6-summary)
  
 
@@ -93,10 +93,14 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   Let us now set up some policies to detect the various types of attack. 
   
+  ** TODO - export and import the policies **
+  
+  ** TODO - add the policies to a group (DWVA application group) **
+  
   **(i) Cross site request forgery**
   
   The vulnerable application exposes an API for password change:
-  /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
   
   Let us set up a policy that detects an invocation to this API.
   
@@ -184,7 +188,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   #### 5.1 Cross site request forgery (CSRF)
   
   The vulnerable application exposes an API for password change:
-  /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  http://[public-ip-of-cluster]:32425//vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
   
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
   
