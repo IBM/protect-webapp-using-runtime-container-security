@@ -14,16 +14,9 @@ In the cloud native era, the applications are deployed in a container environmen
 
 In this code pattern, you will see how to use NeuVector to prevent web application and container runtime threats.
 Once you complete the code pattern, you will learn how to:
-- Deploy NeuVector on IBM Kubernetes/OpenShift cluster
-- Configure security policies in NeuVector to detect and prevent the following types of attack:
-  - Cross Site Request Forgery (CSRF)
-  - Malicious File Upload
-  - Cross Site Scripting (XSS)
-  - Sensitive Data Exposure
-  - Command Injection
-  - SQL Injection
-  - API Service Protection
-  - Container shell access
+- Deploy NeuVector on IBM Kubernetes/OpenShift cluster.
+- Configure security policies in NeuVector to detect and prevent the following types of attack - Cross Site Request Forgery (CSRF), Malicious File Upload, Cross Site Scripting (XSS), Sensitive Data Exposure, Command Injection, SQL Injection, API Service Protection and Container shell access.
+- Test the application for attacks and analyze alerts from NeuVector.
 
 ## Flow
 
@@ -38,11 +31,13 @@ Once you complete the code pattern, you will learn how to:
 
 ## Steps
 
-1. Deploy NeuVector on your Cluster
-2. Deploy Sample Application
-3. Explore NeuVector
-4. Set Policies To Detect Attacks
-5. Trigger Security Events
+1. [Deploy NeuVector on your Cluster](#1-deploy-neuvector-on-your-cluster)
+2. [Deploy Sample Application](#2-deploy-sample-application)
+3. [Explore NeuVector](#3-explore-neuvector)
+4. [Set policies to detect attacks](#4-set-policies-to-detect-attacks)
+5. [Trigger Security Events and Analyze the Alerts](#5-trigger-security-events-and-analyze-the-alerts)
+6. [Summary](#6-summary)
+ 
 
 ### 1. Deploy NeuVector on your Cluster
 
@@ -98,10 +93,14 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   Let us now set up some policies to detect the various types of attack. 
   
+  ** TODO - export and import the policies **
+  
+  ** TODO - add the policies to a group (DWVA application group) **
+  
   **(i) Cross site request forgery**
   
   The vulnerable application exposes an API for password change:
-  /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
   
   Let us set up a policy that detects an invocation to this API.
   
@@ -189,7 +188,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   #### 5.1 Cross site request forgery (CSRF)
   
   The vulnerable application exposes an API for password change:
-  /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  http://[public-ip-of-cluster]:32425//vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
   
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
   
