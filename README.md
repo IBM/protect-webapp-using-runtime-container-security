@@ -100,10 +100,6 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   Let us now set up some policies to detect the various types of attack. 
   
-  ** TODO - export and import the policies **
-  
-  ** TODO - add the policies to a group (DWVA application group) **
-  
   **(i) Cross site request forgery**
   
   The vulnerable application exposes an API for password change:
@@ -182,8 +178,22 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   * Pattern name - forbidden.uploads.folder.accessed
   * Regex pattern - GET.*/hackable/uploads.*HTTP
    
+  **(viii) Change mode and add sensors to the application group **
   
-  **(viii) Container shell access**
+   Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Monitor`. The `Monitor` mode will generate warning alerts for all the attacks.
+  
+  ![switchmode](./images/switch_mode.png)
+  
+ Next, let us add the sensors to monitor the web application for attacks. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Select the `DLP` tab amd click on the `Edit` icon. 
+  
+  ![opengrp](./images/open_dlp.png)
+  
+  
+  The sensors that you created earlier are listed. Select all the sensor and click `Apply`.
+  
+  ![enable_sensors](./images/enable_sensors.png) 
+  
+  **(ix) Container shell access**
   
   If an user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. Some of the process profile rules are defined by default and you can set/change the action to be taken for those. If there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
   
@@ -291,6 +301,13 @@ source
    On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen.
   
   ![forbidden](images/forbidden.png)
+  
+  Let us now change the `NeuVector` mode to deny access and prevent the attack. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Protect`. 
+  Invoke the url on the browser again -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
+  
+  This time this API canot be accessed and you can see the below alert on the `Security Events` page.
+  
+   ![forbidden](images/deny_access.png)
   
   #### 5.8 Container shell access
   
