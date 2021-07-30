@@ -121,14 +121,17 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    Click on `Add`.
 
    ![clickadd](images/click_add_sensor.png)
+       
 
    * Enter a name for the sensor -`sensor.cross.site.request.forgery`.
    * Enter a name for the regex pattern for detection - `CSRF.password.change.requested`.
    * Enter the regex pattern that can detect the attack - `password_new=.*&password_conf=.*`.
 
-   > Note: The name of the sensor and the pattern can be any of your choice.
+    > Note: The name of the sensor and the pattern can be any name of your choice.
+    
+    
+   ![adddetails](images/enter_sensor_details.png)
 
-    ![adddetails](images/enter_sensor_details.png)
 
    Click on `+` and then click `Add`. Similarly we will add other sensors.
   
