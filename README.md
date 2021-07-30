@@ -190,11 +190,11 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    * Pattern name - forbidden.uploads.folder.accessed
    * Regex pattern - GET.*/hackable/uploads.*HTTP
    
- At this place, you have defined some DLP sensors. To see them in-action, we need to apply these sensors to the group.
+ Till now, you have defined the required DLP sensors. To see them in-action, you need to apply these sensors to the DVWA-service.
  
 **Add DLP sensors to the application group**
   
-  Let us add the sensors to monitor the web application for attacks. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Select the `DLP` tab amd click on the `Edit` icon. 
+  Let us add the sensors to monitor the web application for attacks. Select `Policy` on the left menu and select `Groups`. Filter for the DWVA application as shown below. Select the `DLP` tab and click on the `Edit` icon. 
   
   ![opengrp](./images/open_dlp.png)
   
@@ -206,7 +206,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
 **Container shell access or Process Profile Rules**
   
-  Initially NeuVector learned on its own about the required processes required for the application to run. So you will find some process profile rules defined by default with action typed as `allow`. And you are allowed to change the action to be taken for those.
+  Initially NeuVector learned on its own about the required processes required for the application to run. So you will find some process profile rules defined by default with action as `Allow`. And you are allowed to change the action to be taken for those.
   
   So if an user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. But if there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
   
@@ -215,13 +215,13 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
 
 **Change Policy Mode for the Application**
 
-   At this moment `Policy Mode` is set to `Discover`. As all policies have been set now, then we can change the policy mode and test the system.
+   At this moment, `Policy Mode` is set to `Discover`. As all the policies have been set now, then we can change the policy mode and test the system.
    
    Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Monitor`. The `Monitor` mode will generate warning alerts for all the attacks.
   
   ![switchmode](./images/switch_mode.png)
   
-  If you change to `Protect`, then as soon as any request which triggers the security event is detected and it will be blocked. This event will be recorded with Deny action.
+  If you change to `Protect`, then if any request which triggers the security event is detected, it will be blocked and the event will be recorded with Deny action.
   
   
 ### 5. Trigger Security Events and Analyze the Alerts
@@ -234,6 +234,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
   
   On the `DWVA` application Dashboard, click on `CSRF` on the menu bar.
+  
   ![menu](images/menu.png)
   
    Enter a new password with confirmation and click `Change`. This will send a request to the server to change the password.
@@ -315,11 +316,12 @@ source
   ***(viii) API Service Protection***
   
   Let us invoke the `test.php` that you uploaded earlier.
+  
   Invoke the url on the browser -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
   
   The below response can be seen on the browser when the access is not prevented:
   ```
-  dvwa_email.png hack1.php hack2.php test.php 
+  dvwa_email.png test.php 
   ```
   
    On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen.
