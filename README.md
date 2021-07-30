@@ -14,16 +14,9 @@ In the cloud native era, the applications are deployed in a container environmen
 
 In this code pattern, you will see how to use NeuVector to prevent web application and container runtime threats.
 Once you complete the code pattern, you will learn how to:
-- Deploy NeuVector on IBM Kubernetes/OpenShift cluster
-- Configure security policies in NeuVector to detect and prevent the following types of attack:
-  - Cross Site Request Forgery (CSRF)
-  - Malicious File Upload
-  - Cross Site Scripting (XSS)
-  - Sensitive Data Exposure
-  - Command Injection
-  - SQL Injection
-  - API Service Protection
-  - Container shell access
+- Deploy NeuVector on IBM Kubernetes/OpenShift cluster.
+- Configure security policies in NeuVector to detect and prevent the following types of attack - Cross Site Request Forgery (CSRF), Malicious File Upload, Cross Site Scripting (XSS), Sensitive Data Exposure, Command Injection, SQL Injection, API Service Protection and Container shell access.
+- Test the application for attacks and analyze alerts from NeuVector.
 
 ## Flow
 
@@ -38,11 +31,13 @@ Once you complete the code pattern, you will learn how to:
 
 ## Steps
 
-1. Deploy NeuVector on your Cluster
-2. Deploy Sample Application
-3. Explore NeuVector
-4. Set Policies To Detect Attacks
-5. Trigger Security Events
+1. [Deploy NeuVector on your Cluster](#1-deploy-neuvector-on-your-cluster)
+2. [Deploy Sample Application](#2-deploy-sample-application)
+3. [Explore NeuVector](#3-explore-neuvector)
+4. [Set policies to detect attacks](#4-set-policies-to-detect-attacks)
+5. [Trigger Security Events](#5-trigger-security-events)
+6. [Summary](#6-summary)
+ 
 
 ### 1. Deploy NeuVector on your Cluster
 
