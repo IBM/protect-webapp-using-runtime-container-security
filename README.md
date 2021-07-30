@@ -22,6 +22,11 @@ Once you complete the code pattern, you will learn how to:
 
  ![arch](images/architecture.png)
  
+ 1. User (developer) configures security policies in NeuVector.
+ 2. User (developer/hacker) accesses the web application and trigger some security events.
+ 3. User (admin/developer) monitors the application through NeuVector dashboard.
+
+ 
 ## Pre-requisites
 
 * IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud.
@@ -37,7 +42,7 @@ Once you complete the code pattern, you will learn how to:
 4. [Set policies to detect attacks](#4-set-policies-to-detect-attacks)
 5. [Trigger Security Events and Analyze the Alerts](#5-trigger-security-events-and-analyze-the-alerts)
 6. [Summary](#6-summary)
- 
+
 
 ### 1. Deploy NeuVector on your Cluster
 
@@ -73,7 +78,9 @@ Click on `Create/Reset Database`. It will configure the required database with i
 Access NeuVector using its webui link. 
 > Please ensure that you have activated NeuVector by providing proper License code before proceeding further.
 
-Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard where it shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data as you are accessing it first time.
+Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard as shown below. It shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data as you are accessing it first time.
+
+![neuvector-dashboard](images/dashboard.png)
 
 Go to Network Activity in left panel, it will show the pods running in your cluster as shown below. It also shows the `dvwa-app-**` pod which is related to the sample application deployed in previous step.
 
