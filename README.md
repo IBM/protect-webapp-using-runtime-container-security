@@ -6,15 +6,16 @@
 
 ## Introduction
 
-Web application security is a mandatory requirement for any web application accessible on the internet. There are many types of attacks on web applications that can result in loss of sensitive and confidential information, frauds and denial of service. The Open Web Application Security Project® (OWASP) which is a nonprofit foundation have published the [top ten attacks](https://owasp.org/www-project-top-ten/) on web applications. The web application security must take care to prevent such attacks.
+Web application security is a mandatory requirement for any web application accessible on the internet. There are many types of attacks on web applications that can result in loss of sensitive and confidential information, frauds and denial of service. The Open Web Application Security Project (OWASP) which is a nonprofit foundation have published the [top ten attacks](https://owasp.org/www-project-top-ten/) on web applications. The web application security must take care to prevent such attacks.
 
-In the cloud native era, the applications are deployed in a container environments based on Kubernetes. The container runtime security can be implemented in addition to web application security. The container runtime security can monitor all activities within a container to detect threats.
+In the cloud native era, the applications are deployed in a container environments based on Kubernetes. The container security is equally critical in addition to web application security. The container runtime security can monitor all activities within a container to detect threats.
 
-In this code pattern, you will see how to use [NeuVector](https://neuvector.com/) to prevent web application and container runtime threats.
+[NeuVector](https://neuvector.com/) is cloud-native container firewall for monitoring and protecting Kubernetes container deployments in production. It allows you to inspect container network traffic, learn how an application communicates with other applications and, protect and monitor against security attacks. It provides enterprise-grade security.
+
+In this code pattern, you will see how to use NeuVector to prevent web application and container runtime threats.
 Once you complete the code pattern, you will learn how to:
-- Deploy a vulnerable web application on IBM Kubernetes cluster
-- Install NeuVector on IBM Kubernetes cluster
-- Configure NeuVector to detect and prevent the following types of attack:
+- Deploy NeuVector on IBM Kubernetes/OpenShift cluster
+- Configure security policies in NeuVector to detect and prevent the following types of attack:
   - Cross Site Request Forgery (CSRF)
   - Malicious File Upload
   - Cross Site Scripting (XSS)
@@ -23,7 +24,6 @@ Once you complete the code pattern, you will learn how to:
   - SQL Injection
   - API Service Protection
   - Container shell access
-- Test the web application for the security threats
 
 ## Flow
 
@@ -31,66 +31,68 @@ Once you complete the code pattern, you will learn how to:
  
 ## Pre-requisites
 
-* IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud
-* IBM Kubernetes Cluster or OpenShift Cluster
-* kubectl CLI
-* oc CLI
+* IBM Cloud Account - If you are using NeuVector Service available on IBM Cloud.
+* IBM Kubernetes Cluster and `kubectl` CLI - If you plan to deploy your application and NeuVector on Kubernetes.
+* OpenShift Cluster and `oc` CLI - If you plan to deploy your application and NeuVector on OpenShift.
 * helm 3 CLI
 
 ## Steps
 
 1. Deploy NeuVector on your Cluster
 2. Deploy Sample Application
-3. Configure NeuVector
+3. Explore NeuVector
 4. Set Policies To Detect Attacks
 5. Trigger Security Events
 
 ### 1. Deploy NeuVector on your Cluster
 
 Create an instance of NeuVector Container Security Platform.
-Create an instance of IKS
-Gain the access of cluster
-After creating the instance of the service, click on the instance on dashboard. It will take you the page which provides you a set of instructions to deploy NeuVector on your IKS cluster.
-Perform those steps
-After successful deployment, it will give you URL to access NeuVector WebUI.
+
+If you are using IBM Kubernetes Cluster(IKS), then you can follow the instructions provided [here](https://www.ibm.com/cloud/blog/kubernetes-container-security-neuvector-ibm-cloud-container-service).
+
+If you plan to use OpenShift, then you will be deploying NeuVector using operator. Instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16)
+
+For this code pattern, we have used IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector Cloud Service](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform).
 
 ### 2. Deploy Sample Application
 
-For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The deploy configuration is provided in this repository to deploy the application into Kubernetes cluster. Run the below command:
+For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The configuration to deploy the application into Kubernetes cluster is provided in this repository as `deployment.yaml`. Run the below command to deploy the application:
 
 ```
 kubectl apply -f deployment.yaml
 ```
 
-Access the application at `http://<public-ip-of-cluster>:32425/`. It will show the following page when you login first time:
+> Note: The provided deplopy configuration uses 32425 port for service. If this port is not available or you want to use different port, please modify in deployment.yaml and then run.
 
-<landing-page>
+Access the application at `http://<public-ip-of-cluster>:32425/`. Login to the application with default credentials `admin/password`. After login to the application first-time, you will get the following screen:
 
- Click on `Create/Reset Database`. It will configure database with some tables for the application. On re-logging, you will get following screen:
+  ![application-first-screen](./images/app-first-screen.png)
+
+Click on `Create/Reset Database`. It will configure the required database with its tables for the application. On re-logging, you will get following screen:
  
- <landing page 2>
- 
+  ![application-after-db-setup](./images/app-after-db-setup.png)
+   
 
-### 3. Configure NeuVector
+### 3. Explore NeuVector
 
-Access NeuVector using its webui link. Use `admin/admin` for the first time login.
+Access NeuVector using its webui link. 
+> Please ensure that you have activated NeuVector by providing proper License code before proceeding further.
 
-* Accept the End User license agreement. Click on `Accept`.
-* You will see the following in bottom-right corner.
+Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard where it shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts will not have any data as you are accessing it first time.
 
-<snapshot>
-  
-* Click on it to change the password. It will take you to the Profile Settings. Click on `Edit Profile`. Provide the current password and new password then `Save`.
-* Login again with new password.
-* Add license Key.
-  
-    Copy the license key from IBM Cloud Dashboard page.
-  
-    Go to Settings > License
-  
-    Paste the license key in License Code box. Click Activate.
+Go to Network Activity in left panel, it will show the pods running in your cluster as shown below. It also shows the `dvwa-app-**` pod which is related to the sample application deployed in previous step.
 
-Now you are all set to use NeuVector with your IKS Cluster. You can start with setting your own security policies and test.
+![network-activity](images/network-activity.png)
+
+You can explore more on other functionalities. Some of those used in this code pattern are:
+
+* **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more.
+* **Assets > System Components** that shows system components which include controlller pods, scanner pods and enforcer.
+* **Policy > Groups** that provides you the ability to filter group, for example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
+* **Policy > DLP Sensors** that allows you to add more and more DLP sensors as explained in next step. After defining the DLP sensors, it can be applied to any group.
+* **Notification > Security Events** is the place where you will be getting all type of security alerts based on the applied rules and DLP sensors. Security events can also be filtered based on groups/type of rules and so on.
+
+You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehensive guide of NeuVector. After exploring such functionalities, you are all set to use NeuVector with your application. Follow the next steps to set your own security policies and test.
 
 ### 4. Set Policies To Detect Attacks
   
@@ -118,7 +120,6 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
    ![adddetails](images/enter_sensor_details.png)
   
   Click on `+` and then click `Add`. Similarly we will add other sensors.
-  
   
   
   **(ii) Malicious File Upload**
@@ -177,6 +178,11 @@ Now you are all set to use NeuVector with your IKS Cluster. You can start with s
    
   
   **(viii) Container shell access**
+  
+  If an user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. Some of the process profile rules are defined by default and you can set/change the action to be taken for those. If there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
+  
+  ![process-profile-rule](./images/process-profile-rule.png)
+  
   
 ### 5. Trigger Security Events and Analyze the Alerts
 
