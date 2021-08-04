@@ -93,7 +93,7 @@ Go to Network Activity in left panel, it will show the pods running in your clus
 
 You can explore more on the other NeuVector functions. Some of those used in this code pattern are:
 
-* **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more. We recommend you turn the ‘Auto Scan’ on to start run-time vulnerability scanning of all containers and hosts, then come back in a few minutes to see results.
+* **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more. It is recommended that you turn the ‘Auto Scan’ on to start run-time vulnerability scanning of all containers and hosts, then come back in a few minutes to see results.
 * **Assets > System Components** that shows system components which include controlller pods, scanner pods and enforcers.
 * **Policy > Groups** that provides you the ability to filter by deployment (application) groups. For example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
 * **Policy > DLP Sensors** that allows you to add more DLP sensors as explained in next step. After defining the DLP sensors, it can be applied to any group.
