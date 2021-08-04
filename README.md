@@ -1,15 +1,15 @@
 
 # Protect your web application using advanced runtime container security
 
-> Learn to implement Container firewall and Web-application firewall using NeuVector
+> Learn to implement a Container firewall and a Web-application firewall (WAF) using NeuVector
 
 ## Introduction
 
-Web application security is a mandatory requirement for any web application accessible on the internet. There are many types of attacks on web applications that can result in loss of sensitive and confidential information, frauds and denial of service. The Open Web Application Security Project (OWASP) which is a nonprofit foundation have published the [top ten attacks](https://owasp.org/www-project-top-ten/) on web applications. The web application security must take care to prevent such attacks.
+Web application security is a mandatory requirement for any web application accessible on the internet. There are many types of attacks on web applications that can result in loss of sensitive and confidential information, frauds and denial of service. The Open Web Application Security Project (OWASP) which is a nonprofit foundation, has published the [top ten attacks](https://owasp.org/www-project-top-ten/) on web applications. Web application security must be implemented to prevent such attacks.
 
-In the cloud native era, the applications are deployed in a container environments based on Kubernetes. The container security is equally critical in addition to web application security. The container runtime security can monitor all activities within a container to detect threats.
+In the cloud native era, the applications are deployed in a container environments based on Kubernetes. Container security is an equally critical in addition to web application security. Container runtime security can monitor all activities within a container to detect threats, and can even block unauthorized network connections, processes or file activity.
 
-[NeuVector](https://neuvector.com/) is cloud-native container firewall for monitoring and protecting Kubernetes container deployments in production. It allows you to inspect container network traffic, learn how an application communicates with other applications and, protect and monitor against security attacks. It provides enterprise-grade security.
+[NeuVector](https://neuvector.com/) is a cloud-native container firewall for monitoring and protecting Kubernetes container deployments in production. It allows you to inspect container network traffic, learns how an application communicates with other applications and, protects and monitors against network and application  attacks. It provides enterprise-grade security for defense in depth.
 
 In this code pattern, you will see how to use NeuVector to prevent web application and container runtime threats.
 Once you complete the code pattern, you will learn how to:
@@ -23,7 +23,7 @@ Once you complete the code pattern, you will learn how to:
  
  1. User (developer) configures security policies in NeuVector.
  2. User (developer/hacker) accesses the web application and trigger some security attacks.
- 3. User (admin/developer) gets notification of the security attacks and its details on NeuVector Dashboard.
+ 3. User (admin/developer) gets notification of the security attacks and its details on the NeuVector Dashboard.
 
  
 ## Pre-requisites
@@ -51,7 +51,7 @@ If you are using IBM Kubernetes Cluster(IKS), then you can follow the instructio
 
 If you plan to use OpenShift, then you will be deploying NeuVector using operator. Instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16).
 
-For this code pattern, we have used IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector service on IBM Cloud](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform).
+For this code pattern, we have used an IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector service on IBM Cloud](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform).
 
 ### 2. Deploy Sample Application
 
@@ -61,7 +61,7 @@ For this code pattern, we have chosen the popular and open-sourced sample applic
 kubectl apply -f deployment.yaml
 ```
 
-> Note: The provided deploy configuration uses 32425 port for service. If this port is not available or you want to use different port, please modify it in the  deployment.yaml and then run.
+> Note: The provided deploy configuration uses 32425 port for service. If this port is not available or you want to use a different port, please modify it in the  deployment.yaml and then run.
 
 Access the application at `http://<public-ip-of-cluster>:32425/`. 
 
@@ -73,14 +73,14 @@ Click on `Create/Reset Database`. It will configure the required database with i
  
   ![application-after-db-setup](./images/app-after-db-setup.png)
    
-Now the application is up and running, let's understand NeuVector and set some security policies as explained further.
+Now that the application is up and running, let's understand NeuVector and set some security policies as explained further.
 
 ### 3. Explore NeuVector
 
 Access NeuVector using its webui link. 
-> Please ensure that you have activated NeuVector by providing proper License code before proceeding further.
+> Please ensure that you have activated NeuVector by providing the proper License code before proceeding further.
 
-Use `admin/admin` for the first time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard as shown below. It shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts may not have any data if you are accessing first time.
+Use `admin/admin` for the first-time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard as shown below. It shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts may not have any data if you are accessing it for the first time.
 
 ![neuvector-dashboard](images/dashboard.png)
 
@@ -91,21 +91,21 @@ Go to Network Activity in left panel, it will show the pods running in your clus
 ![network-activity](images/network-activity.png)
 
 
-You can explore more on other functionalities. Some of those used in this code pattern are:
+You can explore more on the other NeuVector functions. Some of those used in this code pattern are:
 
-* **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more.
-* **Assets > System Components** that shows system components which include controlller pods, scanner pods and enforcer.
-* **Policy > Groups** that provides you the ability to filter group, for example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
+* **Assets > Containers** that shows more details including its vulnerabilities, stats, state (discover/monitor/protect), scan status and many more. We recommend you turn the ‘Auto Scan’ on to start run-time vulnerability scanning of all containers and hosts, then come back in a few minutes to see results.
+* **Assets > System Components** that shows system components which include controlller pods, scanner pods and enforcers.
+* **Policy > Groups** that provides you the ability to filter by deployment (application) groups. For example if you filter for your sample application using `dvwa` then on selecting this group, it allows you to add more rules(process profile/file access/network), DLP, switch mode(say Monitor to Protect), export group policy and so on.
 * **Policy > DLP Sensors** that allows you to add more DLP sensors as explained in next step. After defining the DLP sensors, it can be applied to any group.
-* **Notification > Security Events** is the place where you will be getting all type of security alerts based on the applied rules and DLP sensors. Security events can also be filtered based on groups/type of rules and so on.
+* **Notification > Security Events** is the place where you will be getting all types of security alerts based on the applied rules and DLP sensors. Security events can also be filtered based on groups/type of rules and so on.
 
 You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehensive guide of NeuVector. After exploring such functionalities, you are all set to use NeuVector with your application. Follow the next steps to set your own security policies and test.
 
-### 4. Set Policies To Detect Attacks
+### 4. Set Policies to Detect Attacks
   
   Let us now set up some policies to detect the various types of attack.
   
-  > NOTE: These DLP rules are created for demo purposes. They should be fine-tuned to reduce false positives and false negatives when used in the real environment.
+  > NOTE: These DLP rules are created for demo purposes. They should be fine-tuned to reduce false positives and false negatives when used in a real environment. Often these patterns are application dependent and should be tested with specific applications.
   
    ***(i) Cross site request forgery***
 
@@ -133,12 +133,12 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    ![adddetails](images/enter-sensor-details.png)
 
 
-   Click on `+` and then click `Add`. Similarly we will add other sensors.
+   Click on `+` and then click `Add`. Similarly, we will add other sensors.
   
   
    ***(ii) Malicious File Upload***
 
-   The sample application provides the functionality to upload the file. There is a possibility that an user tries to execute commands in the container shell to get some confidential information using that file. To avoid that you can set a security policy which will scan the file to be uploaded and take action accordingly. For example, if an user tries to upload a php file which has instruction to run shell commands then the below policy will detect `shell_exec` commands inside PHP files being uploaded.
+   The sample application provides the functionality to upload the file. There is a possibility that a user tries to execute commands in the container shell to get some confidential information using that file. To avoid that you can set a security policy which will scan the file to be uploaded and take action accordingly. For example, if a user tries to upload a php file which has instructions to run shell commands then the below policy will detect `shell_exec` commands inside PHP files being uploaded.
 
    Add a sensor for detecting malicious file uploads:
    * Sensor name - sensor.malicious.phpfile.upload
@@ -190,7 +190,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    * Pattern name - forbidden.uploads.folder.accessed
    * Regex pattern - GET.*/hackable/uploads.*HTTP
    
- Till now, you have defined the required DLP sensors. To see them in-action, you need to apply these sensors to the DVWA-service.
+ At this point, you will have defined the required DLP sensors. To see them in-action, you need to apply these sensors to the DVWA-service.
  
 **Add DLP sensors to the application group**
   
@@ -199,16 +199,16 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   ![opengrp](./images/open_dlp.png)
   
   
-  The sensors that you created earlier are listed. Select all the sensor and click `Apply`.
+  The sensors that you created earlier are listed. Select all the sensors and click `Apply`.
   
   ![enable_sensors](./images/enable_sensors.png) 
   
   
 **Container shell access or Process Profile Rules**
   
-  Initially NeuVector learned on its own about the required processes required for the application to run. So you will find some process profile rules defined by default with action as `Allow`. And you are allowed to change the action to be taken for those.
+  Initially NeuVector learned on its own the required processes for the application to run. So you will find some process profile rules defined by default with action as `Allow`. And you are allowed to change the action to be taken for those.
   
-  So if an user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. But if there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
+  So if a user tries to access container shell directly or somehow get the access, then `Process Profile Rules` detects those. But if there is a specific requirement, say do not allow access of `/bin/sh`, then new rules can be added directly for the group using `Policy > Groups` as shown below.
   
   ![process-profile-rule](./images/process-profile-rule.png)
   
@@ -221,7 +221,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   ![switchmode](./images/switch_mode.png)
   
-  If you change to `Protect`, then if any request which triggers the security event is detected, it will be blocked and the event will be recorded with Deny action.
+  If you change to `Protect`, then if any request which triggers the security event is detected, it will be blocked, and the event will be recorded with Deny action.
   
   
 ### 5. Trigger Security Events and Analyze the Alerts
@@ -337,17 +337,19 @@ source
   
   Let us now change the policy mode to deny access and prevent the attack. Select `Policy` on the left menu and select `Groups`. Select the group for the DWVA application as shown below. Click on `Switch Mode` and select `Protect`. 
   
-  Now you can test any of the attack. Let us try `API Service Protection`.
+  Now you can test any of the attacks. Let us try `API Service Protection`.
   
   Invoke the url on the browser again -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
   
-  This time this API canot be accessed and you can see the below alert on the `Security Events` page.
+  This time this API can not be accessed and you can see the below alert on the `Security Events` page.
   
    ![forbidden](images/deny_access.png)
   
   ### 6. Summary
   
-  In this code pattern, you saw how to set up security policies in `NeuVector` using DLP sensors. The sensors could detect various types of web application attacks like CSRF, XSS, Command Injection, SQL Injection, Forbidden API access, Sensitive Data Exposure and Container shell access. The security policies are confidential to the organization and depend on the web application being protected. The exhaustive list of policies to protect a web application must be developed in collaboration with the security team in the organization. Once the vulnerabilities are detected, the application must be enhanced and made secure against those type of attacks. 
+  In this code pattern, you saw how to set up security policies in `NeuVector` using DLP sensors. The sensors could detect various types of web application attacks like CSRF, XSS, Command Injection, SQL Injection, Forbidden API access, Sensitive Data Exposure and Container shell access. The security policies are confidential to the organization and depend on the web application being protected. The exhaustive list of policies to protect your web application must be developed in collaboration with the security team in your organization. Once any vulnerabilities are detected, the application must be enhanced to be made secure against those type of attacks.
+  
+Going forward, NeuVector plans to create a separate section of its console to configure OWASP signature and pattern based detection. Although the underlying detection engine is similar to DLP functions, there is a difference between looking for OWASP and other network attacks versus inspecting payloads for sensitive data. In addition, enabling the simple import of such patterns will make it easier for security teams to update and apply these rules.
   
 ## License
 
