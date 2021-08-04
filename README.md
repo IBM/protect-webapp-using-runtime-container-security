@@ -127,7 +127,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    * Enter a name for the regex pattern for detection - `CSRF.password.change.requested`.
    * Enter the regex pattern that can detect the attack - `password_new=.*&password_conf=.*`.
 
-    > Note: The name of the sensor and the pattern can be any name of your choice.
+   > Note: The name of the sensor and the pattern can be any name of your choice.
     
     
    ![adddetails](images/enter-sensor-details.png)
@@ -174,12 +174,9 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
 
    ***(vi) SQL Injection***
 
-   If an user tries to embed a SQL query through any of the input parameters, this policy will detect `SELECT` queries injected into requests.
-
-   Add a sensor for detecting SQL injections:
-   * Sensor name - sensor.sql.injection
-   * Pattern name - sql.injection.select.statement
-   * Regex pattern - select.\*from.\*
+   NeuVector has a built-in SQL injection detection so you don't need to create pattern signatures in the DLP sensor. The built-in detection covers different forms of SQL injection that cannot be detected with simple regex patterns. Using DVWA's SQL injection test, an attacker can get the full list of username and password without proper authorization.
+   
+> Note: For testing the SQL injection with DVWA app, you need to deploy the MySQL DB as a separate container and configure DVWA to use it. This will be detected by the connection to the DB. 
 
    ***(vii) API Service Protection***
 
@@ -305,15 +302,7 @@ source
   
    ![cmdinj](images/cmdinj.png)
   
-  ***(vii) SQL injection***
-  
-  Go to the `DVWA` application dashboard. Click on `SQL Injection` on the menu. In the `User ID` field enter the SQL - `SELECT * FROM USERS`.
- 
-  On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. A violation can be seen for the SQL injection policy.
-  
-   ![sqlinj](images/sqlinj.png)
-  
-  ***(viii) API Service Protection***
+  ***(vii) API Service Protection***
   
   Let us invoke the `test.php` that you uploaded earlier.
   
@@ -328,7 +317,7 @@ source
   
   ![forbidden](images/forbidden.png)
   
-  ***(ix) Container shell access***
+  ***(viii) Container shell access***
   
   The container shell was accessed during `Command Injection`, and also when `test.php` was invoked to check `API Service Protection`. NeuVector triggered alerts when any command is run on the container shell as shown in the above snapshot.
   
