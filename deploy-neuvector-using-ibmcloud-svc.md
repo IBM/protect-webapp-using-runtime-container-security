@@ -1,4 +1,4 @@
-# Add runtime container security to your production Kubernetes workloads 
+# Deploy NeuVector Service on Kubernetes from IBM Cloud Catalog
 
 ## Introduction
 
