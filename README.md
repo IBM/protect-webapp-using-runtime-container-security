@@ -17,7 +17,7 @@ Once you complete the code pattern, you will learn how to:
 - Configure security policies in NeuVector to detect and prevent the following types of attack - Cross Site Request Forgery (CSRF), Malicious File Upload, Cross Site Scripting (XSS), Sensitive Data Exposure, Command Injection, SQL Injection, API Service Protection and Container shell access.
 - Test the application for attacks and analyze alerts from NeuVector.
 
->Note: This code pattern uses the [Damn Vulnerable Web App (DVWA)](https://dvwa.co.uk/) deployed inside a container for exploring the capabilities of NeuVector. All the different types of attacks will be simulated using this application. 
+>Note: The code pattern uses the [Damn Vulnerable Web App (DVWA)](https://dvwa.co.uk/) deployed inside a container for exploring the capabilities of NeuVector. All the different types of attacks will be simulated using this application. 
 
 ## Flow
 
@@ -35,7 +35,6 @@ Once you complete the code pattern, you will learn how to:
 * [OpenShift Cluster](https://cloud.ibm.com/kubernetes/catalog/create?platformType=openshift) and `oc` CLI - If you plan to deploy your application and NeuVector on OpenShift.
 * [Helm 3](https://helm.sh/docs/intro/install/) CLI
 
->Note: This code pattern uses the `IBM Kubernetes` cluster for deploying the `DVWA(Damn Vulernable Web Application` and `NeuVector`. Please make a note of the **Public IP** of the cluster. This will be needed to access the NeuVector console as well the `DVWA` application deployed on the cluster.
 
 ## Steps
 
@@ -53,23 +52,50 @@ Create an instance of NeuVector Container Security Platform.
 
 If you are using IBM Kubernetes Cluster(IKS), then you can follow the instructions provided [here](https://github.com/IBM/protect-webapp-using-runtime-container-security/blob/main/deploy-neuvector-using-ibmcloud-svc.md).
 
-If you plan to use OpenShift, then you will be deploying NeuVector using operator. Instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16).
+If you plan to use OpenShift, then you will be deploying NeuVector using the operator available on OperatorHub on OpenShift web console. 
 
-For this code pattern, we have used an IBM Kubernetes Cluster and have deployed NeuVector on IKS using the [NeuVector service on IBM Cloud](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform).
+![neuvector-operator](./images/neuvector-operator.png)
+
+You can choose any one of these operators available on OperatorHub. The install instructions are given [here](https://catalog.redhat.com/software/operators/detail/5ec3fa84ef29fd35586d9a16).
+
+This code pattern uses the IBM Kubernetes Cluster to deploy the sample application and NeuVector using the [NeuVector service on IBM Cloud](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform). Please make a note of the `public IP` of your IKS cluster using the command `kubectl get nodes -o wide`. This will be needed to access the application deployed on the cluster.
+
 
 ### 2. Deploy Sample Application
 
-For this code pattern, we have chosen the popular and open-sourced sample application [DVWA (Damn Vulnerable Web Application)](https://dvwa.co.uk/) as the target for the attacks. The source code for the application is available at https://github.com/digininja/DVWA. The configuration to deploy the application into Kubernetes cluster is provided in this repository as `deployment.yaml`. Run the below command to deploy the application:
+For this code pattern, we have chosen the popular and open-sourced sample application [DVWA (Damn Vulnerable Web Application)](https://dvwa.co.uk/) as the target for the attacks. The source code for the application is available at https://github.com/digininja/DVWA. The configuration to deploy the application into Kubernetes cluster is provided in this repository as `deployment.yaml`. 
+
+The deploy configuration uses the container image available on DockerHub as shown which uses the port 80.
+
+```
+image: vulnerables/web-dvwa
+ports:
+  - containerPort: 80
+```
+
+To expose the application as a service, `NodePort` service type is used.
+
+```
+type: NodePort
+  ports:
+    - port: 80
+      nodePort: 32425
+```
+
+> Note: The provided deploy configuration uses 32425 port for service. If this port is not available or you want to use a different port, please modify it in the  deployment.yaml.
+
+
+Run the below command to deploy the application:
 
 ```
 kubectl apply -f deployment.yaml
 ```
 
-> Note: The provided deploy configuration uses 32425 port for service. If this port is not available or you want to use a different port, please modify it in the  deployment.yaml and then run.
-
 Access the application at `http://[public-ip-of-cluster]:32425/`. 
 
 >Note: Replace `public-ip-of-cluster` with the Public IP of the cluster that you noted earlier.
+
+**Access the application**
 
 Login to the application with default credentials `admin/password`. After login to the application first-time, you will get the following screen:
 
@@ -84,7 +110,7 @@ Now that the application is up and running, let's understand NeuVector and set s
 ### 3. Explore NeuVector
 
 Access NeuVector using its webui link. 
-> Please ensure that you have activated NeuVector by providing the proper License code before proceeding further.
+> Please ensure that you have activated NeuVector by providing the proper License code before proceeding further. The step **Apply NeuVector License** is explained  [here](https://github.com/IBM/protect-webapp-using-runtime-container-security/blob/main/deploy-neuvector-using-ibmcloud-svc.md) for IKS. 
 
 Use `admin/admin` for the first-time login or login with the new password if it is changed already. It takes you to the NeuVector dashboard as shown below. It shows different types of charts based on security events, risk, vulnerable pods and so on. But the most of the charts may not have any data if you are accessing it for the first time.
 
