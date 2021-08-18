@@ -68,6 +68,7 @@ kubectl apply -f deployment.yaml
 > Note: The provided deploy configuration uses 32425 port for service. If this port is not available or you want to use a different port, please modify it in the  deployment.yaml and then run.
 
 Access the application at `http://[public-ip-of-cluster]:32425/`. 
+
 >Note: Replace `public-ip-of-cluster` with the Public IP of the cluster that you noted earlier.
 
 Login to the application with default credentials `admin/password`. After login to the application first-time, you will get the following screen:
@@ -116,8 +117,8 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    
    The Cross Site Request Forgery(CSRF) exploits APIs that perform sensitive operations like a password change or account deletion.
    The `DVWA` application thats deployed exposes an API for password change:
-   http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
-    >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
+   `http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change`
+   >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
    
    In a valid authenticated session, this API can be invoked to change the password of the user. This can be exploited by attackers.
 
@@ -264,8 +265,8 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   ***(iii) Reflected cross site scripting***
   
   The `DVWA` application exposes an API that enables an attackers script to run in an users browser:
-    http://[public-ip-of-cluster]:32425/vulnerabilities/xss_r/?name=[user entered data]
-    
+    `http://[public-ip-of-cluster]:32425/vulnerabilities/xss_r/?name=[user entered data]`
+    >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
   Let us simulate some `XSS` attacks on the `DVWA` application.
   Go to the `DVWA` application dashboard. Click on the `XSS (Reflected)` on the menu. Enter the text with a script tag in the `What's your name?` field - `<script>alert(xss)</script>`. Click `Submit`.
   A Javascript alert message `xss` will be displayed.
@@ -275,7 +276,9 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   ***(iv) Stored cross site scripting***
  
-  The `DVWA` application exposes a form at the url -   http://[public-ip-of-cluster]:32425/vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
+  The `DVWA` application exposes a form at the url -   `http://[public-ip-of-cluster]:32425/vulnerabilities/xss_s/`.
+  >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
+  It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
   
   Go to the `DVWA` application dashboard. Click on `XSS (Stored)` on the menu. Enter a name in the `Name` field. In the `Message` field, enter `<script>alert('bad script')</script>`. Click `Sign Guestbook`. The message gets added on the page, and the script runs to display a javascript alert - `bad script`.
   
@@ -317,7 +320,8 @@ source
   
   This feature detects invocation of prohibited APIs on the application. Let us invoke the `test.php` that you uploaded earlier.
   
-  Invoke the url on the browser -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
+  Invoke the url on the browser -   `http://[public-ip-of-cluster]:32425/hackable/uploads/test.php`
+  >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
   
   The below response can be seen on the browser when the access is not prevented:
   ```
@@ -339,7 +343,8 @@ source
   
   Now you can test any of the attacks. Let us try `API Service Protection`.
   
-  Invoke the url on the browser again -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
+  Invoke the url on the browser again -   `http://[public-ip-of-cluster]:32425/hackable/uploads/test.php`
+  >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
   
   This time this API can not be accessed and you can see the below alert on the `Security Events` page.
   
