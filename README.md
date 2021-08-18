@@ -111,7 +111,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
    ***(i) Cross site request forgery***
    
-   The Cross Site Request Forgery(CSRF) exploits APIs that performs sensitive operations like a password change or account deletion.
+   The Cross Site Request Forgery(CSRF) exploits APIs that perform sensitive operations like a password change or account deletion.
    The `DVWA` application thats deployed exposes an API for password change:
    http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
    In a valid authenticated session, this API can be invoked to change the password of the user. This can be exploited by attackers.
