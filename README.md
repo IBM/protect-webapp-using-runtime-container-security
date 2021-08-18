@@ -236,7 +236,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   ***(i) Cross site request forgery (CSRF)***
   
   The `DVWA` application exposes an API for password change:
-  http://[public-ip-of-cluster]:32425//vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  `http://[public-ip-of-cluster]:32425//vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change`
   >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
   
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website. Let us simulate this attack.
