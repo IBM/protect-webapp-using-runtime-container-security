@@ -35,6 +35,8 @@ Once you complete the code pattern, you will learn how to:
 * [OpenShift Cluster](https://cloud.ibm.com/kubernetes/catalog/create?platformType=openshift) and `oc` CLI - If you plan to deploy your application and NeuVector on OpenShift.
 * [Helm 3](https://helm.sh/docs/intro/install/) CLI
 
+>Note: This code pattern uses the `IBM Kubernetes` cluster for deploying the `DVWA(Damn Vulernable Web Application` and `NeuVector`. Please make a note of the **Public IP** of the cluster. This will be needed to access the NeuVector console as well the `DVWA` application deployed on the cluster.
+
 ## Steps
 
 1. [Deploy NeuVector on your Cluster](#1-deploy-neuvector-on-your-cluster)
@@ -65,7 +67,8 @@ kubectl apply -f deployment.yaml
 
 > Note: The provided deploy configuration uses 32425 port for service. If this port is not available or you want to use a different port, please modify it in the  deployment.yaml and then run.
 
-Access the application at `http://<public-ip-of-cluster>:32425/`. 
+Access the application at `http://[public-ip-of-cluster]:32425/`. 
+>Note: Replace `public-ip-of-cluster` with the Public IP of the cluster that you noted earlier.
 
 Login to the application with default credentials `admin/password`. After login to the application first-time, you will get the following screen:
 
@@ -114,6 +117,8 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
    The Cross Site Request Forgery(CSRF) exploits APIs that perform sensitive operations like a password change or account deletion.
    The `DVWA` application thats deployed exposes an API for password change:
    http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+    >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
+   
    In a valid authenticated session, this API can be invoked to change the password of the user. This can be exploited by attackers.
 
    Let us set up a policy that detects an invocation to this API.
@@ -231,6 +236,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   The `DVWA` application exposes an API for password change:
   http://[public-ip-of-cluster]:32425//vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+  >Note: `public-ip-of-cluster` is Public IP of the cluster that you noted earlier.
   
   A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website. Let us simulate this attack.
   
