@@ -17,6 +17,8 @@ Once you complete the code pattern, you will learn how to:
 - Configure security policies in NeuVector to detect and prevent the following types of attack - Cross Site Request Forgery (CSRF), Malicious File Upload, Cross Site Scripting (XSS), Sensitive Data Exposure, Command Injection, SQL Injection, API Service Protection and Container shell access.
 - Test the application for attacks and analyze alerts from NeuVector.
 
+>Note: This code pattern uses the [Damn Vulnerable Web App (DVWA)](https://dvwa.co.uk/) deployed inside a container for exploring the capabilities of NeuVector. All the different types of attacks will be simulated using this application. 
+
 ## Flow
 
  ![arch](images/architecture.png)
@@ -55,7 +57,7 @@ For this code pattern, we have used an IBM Kubernetes Cluster and have deployed 
 
 ### 2. Deploy Sample Application
 
-For this code pattern, we have chosen the popular and open-sourced sample application `DVWA (Damn Vulnerable Web Application)` as the target for the attacks. The configuration to deploy the application into Kubernetes cluster is provided in this repository as `deployment.yaml`. Run the below command to deploy the application:
+For this code pattern, we have chosen the popular and open-sourced sample application [DVWA (Damn Vulnerable Web Application)](https://dvwa.co.uk/) as the target for the attacks. The source code for the application is available at https://github.com/digininja/DVWA. The configuration to deploy the application into Kubernetes cluster is provided in this repository as `deployment.yaml`. Run the below command to deploy the application:
 
 ```
 kubectl apply -f deployment.yaml
@@ -108,9 +110,11 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   > NOTE: These DLP rules are created for demo purposes. They should be fine-tuned to reduce false positives and false negatives when used in a real environment. Often these patterns are application dependent and should be tested with specific applications.
   
    ***(i) Cross site request forgery***
-
-   The vulnerable application exposes an API for password change:
+   
+   The Cross Site Request Forgery(CSRF) exploits APIs that performs sensitive operations like a password change or account deletion.
+   The `DVWA` application thats deployed exposes an API for password change:
    http://[public-ip-of-cluster]:32425/vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+   In a valid authenticated session, this API can be invoked to change the password of the user. This can be exploited by attackers.
 
    Let us set up a policy that detects an invocation to this API.
 
@@ -138,7 +142,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
    ***(ii) Malicious File Upload***
 
-   The sample application provides the functionality to upload the file. There is a possibility that a user tries to execute commands in the container shell to get some confidential information using that file. To avoid that you can set a security policy which will scan the file to be uploaded and take action accordingly. For example, if a user tries to upload a php file which has instructions to run shell commands then the below policy will detect `shell_exec` commands inside PHP files being uploaded.
+   The `DVWA` application provides a functionality to upload the file. If it is a PHP file with shell commands that can be run on the container shell to get some confidential information, it can be invoked by an attacker to get such information. In order to avoid that, you can set a security policy which will scan the file to be uploaded and take an action of alerting or denial of the event. For example, if a user tries to upload a php file which has instructions to run shell commands then the below policy will detect `shell_exec` commands inside PHP files being uploaded.
 
    Add a sensor for detecting malicious file uploads:
    * Sensor name - sensor.malicious.phpfile.upload
@@ -147,7 +151,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
    ***(iii) Cross Site Scripting (XSS)***
 
-   There are vulnerable APIs using which malicious scripts can be embedded in data sent to the application. The scripts can be embedded in query parameters of a GET request or inside form data of a POST request. The below policies will detect scripts being sent to the application inside a GET or a POST request.
+   The `DVWA` application has vulnerable APIs using which malicious scripts can be sent to the application. The scripts can be embedded in query parameters of a GET request or inside form data of a POST request. The below policies will detect scripts being sent to the application inside a GET or a POST request.
 
    Add a sensor for detecting scripts in a GET request:
    * Sensor name - sensor.xss.get
@@ -161,11 +165,11 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
 
    ***(iv) Sensitive Data Exposure***
 
-   The DLP sensor `sensor.creditcard` exists by default. This will be used to detect `credit card` information in requests.
+   There can be sensitive data like credit card number or social security number that is sent to the application. Such information is compromised if not encrypted. By default, NeuVector has a DLP sensor `sensor.creditcard`. This will be used to detect `credit card` information in requests. You can specify sensors to detect other kinds of sensitive information that is transmitted to the application.
 
    ***(v) Command Injection***
 
-   The vulnerable web application exposes an API using which you can ping an IP address or URL. It is possible to inject other commands with the IP Address or URL and get the results back. Here, you will set up a policy to detect the `ls` command being injected.
+   The `DVWA` application exposes an API using which you can ping an IP address or URL. It is possible to inject other commands with the IP Address or URL and get the results back. Here, you will set up a policy to detect the `ls` command being injected.
 
    Add a sensor for detecting command injections:
    * Sensor name - sensor.command.injection
@@ -180,7 +184,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
 
    ***(vii) API Service Protection***
 
-   The vulnerable application exposes an API that gives access to the uploaded files. An user may try to download or execute the file to get some important information. This policy will detect any invocation to the API.
+   The `DVWA` application exposes an API that gives access to the uploaded files. An user may try to download or execute the file to get some important information. This policy will detect any invocation to the API.
 
    Add a sensor for detecting forbidden api access:
    * Sensor name - sensor.forbidden.api
@@ -225,10 +229,10 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
 
   ***(i) Cross site request forgery (CSRF)***
   
-  The vulnerable application exposes an API for password change:
+  The `DVWA` application exposes an API for password change:
   http://[public-ip-of-cluster]:32425//vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
   
-  A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website.
+  A script to invoke this GET request can be embedded in other web site pages. This will change the user's password and gives the hacker control to login to the   website. Let us simulate this attack.
   
   On the `DWVA` application Dashboard, click on `CSRF` on the menu bar.
   
@@ -246,16 +250,17 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   <?php echo shell_exec("ls");?>
   ```
   
-  On the `DWVA` application Dashboard, click on `File Upload` on the menu bar. Click on `Browse`. Select the `test.php` file created earlier and click `Upload`.
+  To simulate this attack, on the `DWVA` application Dashboard, click on `File Upload` on the menu bar. Click on `Browse`. Select the `test.php` file created earlier and click `Upload`.
   
   On the NeuVector Dashboard, select `Notifications` and click on `Security Events`. The below violation can be seen:
    ![upload](images/upload.png)
   
   ***(iii) Reflected cross site scripting***
   
-  The vulnerable application exposes an API that enables an attackers script to run in an users browser:
+  The `DVWA` application exposes an API that enables an attackers script to run in an users browser:
     http://[public-ip-of-cluster]:32425/vulnerabilities/xss_r/?name=[user entered data]
-  
+    
+  Let us simulate some `XSS` attacks on the `DVWA` application.
   Go to the `DVWA` application dashboard. Click on the `XSS (Reflected)` on the menu. Enter the text with a script tag in the `What's your name?` field - `<script>alert(xss)</script>`. Click `Submit`.
   A Javascript alert message `xss` will be displayed.
   
@@ -264,7 +269,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
   
   ***(iv) Stored cross site scripting***
  
-  The vulnerable application exposes a form at the url -   http://[public-ip-of-cluster]:32425/vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
+  The `DVWA` application exposes a form at the url -   http://[public-ip-of-cluster]:32425/vulnerabilities/xss_s/. It is possible to embed a javascript code in the form and submit. This script will be executed for all other users upon loading this page.
   
   Go to the `DVWA` application dashboard. Click on `XSS (Stored)` on the menu. Enter a name in the `Name` field. In the `Message` field, enter `<script>alert('bad script')</script>`. Click `Sign Guestbook`. The message gets added on the page, and the script runs to display a javascript alert - `bad script`.
   
@@ -282,7 +287,7 @@ You can refer to the [webinar](https://vimeo.com/526381155) which is a comprehen
 
    ***(vi) Command injection***
   
-  Go to the `DVWA` application dashboard. Click on `Command Injection` on the menu. In the `Enter an IP address` field, enter `example.com;ls`. Click `Submit`.
+  A sensitive command can be embedded as part of other data sent to the application. Let us simulate a `Command Injection` attack. Go to the `DVWA` application dashboard. Click on `Command Injection` on the menu. In the `Enter an IP address` field, enter `example.com;ls`. Click `Submit`.
   You can see a response from the application with a list of files in the application directory.
   
   ```
@@ -304,7 +309,7 @@ source
   
   ***(vii) API Service Protection***
   
-  Let us invoke the `test.php` that you uploaded earlier.
+  This feature detects invocation of prohibited APIs on the application. Let us invoke the `test.php` that you uploaded earlier.
   
   Invoke the url on the browser -   http://[public-ip-of-cluster]:32425/hackable/uploads/test.php
   
