@@ -60,6 +60,7 @@ You can choose any one of these operators available on OperatorHub. The install 
 
 This code pattern uses the IBM Kubernetes Cluster to deploy the sample application and NeuVector using the [NeuVector service on IBM Cloud](https://cloud.ibm.com/catalog/services/neuvector-container-security-platform). Please make a note of the `public IP` of your IKS cluster using the command `kubectl get nodes -o wide`. This will be needed to access the application deployed on the cluster.
 
+>Note: Make a note that NeuVector works exact the same as explained in below steps on both platforms, Kubernetes and OpenShift.
 
 ### 2. Deploy Sample Application
 
